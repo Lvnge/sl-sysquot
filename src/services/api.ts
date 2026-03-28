@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: "sl-sysquot-production.up.railway.app" });
+const api = axios.create({
+  baseURL: "https://sl-sysquot-production.up.railway.app",
+});
 
 export const getQuotes = () => api.get("/quotes");
 export const createQuote = (data: object) => api.post("/quotes", data);
