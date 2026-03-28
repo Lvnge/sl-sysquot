@@ -1,0 +1,54 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  name      String
+  company   String?
+  phone     String?
+  email     String?
+  createdAt DateTime @default(now())
+  quotes    Quote[]
+}
+
+model Quote {
+  id        Int         @id @default(autoincrement())
+  folio     String      @unique
+  clientId  Int
+  client    Client      @relation(fields: [clientId], references: [id])
+  maqType   String?
+  maqModel  String?
+  maqSerial String?
+  maqHours  String?
+  diagnosis String?
+  delivery  String?
+  validity  String?
+  notes     String?
+  status    String      @default("Borrador")
+  items     QuoteItem[]
+  createdAt DateTime    @default(now())
+}
+
+model QuoteItem {
+  id      Int    @id @default(autoincrement())
+  quoteId Int
+  quote   Quote  @relation(fields: [quoteId], references: [id])
+  desc    String
+  type    String
+  qty     Float
+  price   Float
+}
+
+model CatalogItem {
+  id    Int     @id @default(autoincrement())
+  name  String
+  type  String
+  price Float
+  desc  String?
+}

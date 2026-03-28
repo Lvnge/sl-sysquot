@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "nodemon --experimental-vm-modules server/index.js"
+    "server": "nodemon --exec tsx server/index.ts",
+    "start": "tsx server/index.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.6.0",
@@ -27,6 +28,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
     "@types/node": "^24.12.0",
     "@types/pg": "^8.20.0",
     "@types/react": "^19.2.14",
@@ -39,6 +42,7 @@
     "globals": "^17.4.0",
     "nodemon": "^3.1.14",
     "prisma": "^7.6.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.0",
     "vite": "^8.0.1"
