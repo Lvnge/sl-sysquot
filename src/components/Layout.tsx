@@ -2,44 +2,48 @@ import { NavLink } from "react-router-dom";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen bg-gray-100">
-      <aside className="w-52 bg-white border-r border-gray-200 flex flex-col">
-        <div className="p-4 border-b border-gray-200">
-          <h1 className="text-sm font-medium">⚙ Persa Industrial</h1>
-          <p className="text-xs text-gray-400 mt-1">Sistema de cotizaciones</p>
+    <div className="flex h-screen bg-gray-50">
+      <aside className="w-56 bg-white border-r border-gray-100 flex flex-col shadow-sm">
+        <div className="px-5 py-5 border-b border-gray-100">
+          <h1 className="text-sm font-semibold tracking-tight text-gray-800">
+            Persa Industrial
+          </h1>
+          <p className="text-xs text-gray-400 mt-0.5">
+            Sistema de cotizaciones
+          </p>
         </div>
-        <nav className="flex-1 p-2 flex flex-col gap-1 mt-2">
+        <nav className="flex-1 px-3 py-3 flex flex-col gap-0.5">
           <NavLink
             to="/"
             end
             className={({ isActive }) =>
-              `flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${isActive ? "bg-gray-100 font-medium" : "text-gray-500 hover:bg-gray-50"}`
+              `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${isActive ? "bg-gray-900 text-white font-medium" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`
             }
           >
-            📋 Cotizaciones
+            <span className="text-base">📋</span> Cotizaciones
           </NavLink>
           <NavLink
             to="/new"
             className={({ isActive }) =>
-              `flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${isActive ? "bg-gray-100 font-medium" : "text-gray-500 hover:bg-gray-50"}`
+              `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${isActive ? "bg-gray-900 text-white font-medium" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`
             }
           >
-            ✚ Nueva cotización
+            <span className="text-base">＋</span> Nueva cotización
           </NavLink>
           <NavLink
             to="/catalog"
             className={({ isActive }) =>
-              `flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${isActive ? "bg-gray-100 font-medium" : "text-gray-500 hover:bg-gray-50"}`
+              `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${isActive ? "bg-gray-900 text-white font-medium" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`
             }
           >
-            📦 Catálogo
+            <span className="text-base">📦</span> Catálogo
           </NavLink>
         </nav>
-        <div className="p-3 border-t border-gray-200">
-          <p className="text-xs text-gray-400">Persa Industrial v1.0</p>
+        <div className="px-5 py-3 border-t border-gray-100">
+          <p className="text-xs text-gray-300">v1.0</p>
         </div>
       </aside>
-      <main className="flex-1 overflow-auto">{children}</main>
+      <main className="flex-1 overflow-auto bg-gray-50">{children}</main>
     </div>
   );
 }

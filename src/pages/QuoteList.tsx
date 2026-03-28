@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
-import { getQuotes } from "../services/api";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import QuotePDF from "../components/QuotePDF";
+import { getQuotes, getSender, deleteQuote } from "../services/api";
 import type { Quote } from "../types";
 
 const statusStyle: Record<string, string> = {
@@ -12,13 +10,31 @@ const statusStyle: Record<string, string> = {
   Enviada: "bg-blue-100 text-blue-800",
   Aprobada: "bg-green-100 text-green-700",
 };
-
+interface Sender {
+  name: string;
+  company: string;
+  phone: string;
+  email: string;
+  address: string;
+}
 export default function QuoteList() {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const navigate = useNavigate();
-
+  const [sender, setSender] = useState<Sender | undefined>(undefined);
+  const [generatingPDF, setGeneratingPDF] = useState<number | null>(null);
+  const handleDelete = async (id: number, folio: string) => {
+    if (
+      !confirm(
+        `¿Eliminar cotización ${folio}? Esta acción no se puede deshacer.`,
+      )
+    )
+      return;
+    await deleteQuote(id);
+    setQuotes(quotes.filter((q) => q.id !== id));
+  };
   useEffect(() => {
     getQuotes().then((r) => setQuotes(r.data));
+    getSender().then((r) => setSender(r.data));
   }, []);
 
   const total = (items: Quote["items"]) => {
@@ -33,10 +49,18 @@ export default function QuoteList() {
     <Layout>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-base font-medium">Cotizaciones</h2>
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800">
+              Cotizaciones
+            </h2>
+            <p className="text-xs text-gray-400 mt-0.5">
+              {quotes.length} cotización{quotes.length !== 1 ? "es" : ""}{" "}
+              registrada{quotes.length !== 1 ? "s" : ""}
+            </p>
+          </div>
           <button
             onClick={() => navigate("/new")}
-            className="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="bg-gray-900 text-white text-sm px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
           >
             + Nueva cotización
           </button>
@@ -85,13 +109,34 @@ export default function QuoteList() {
                     >
                       Editar
                     </button>
-                    <PDFDownloadLink
-                      document={<QuotePDF quote={q} />}
-                      fileName={`${q.folio}.pdf`}
-                      className="text-sm text-green-600 hover:underline ml-3"
+                    <button
+                      onClick={async () => {
+                        setGeneratingPDF(q.id);
+                        const { pdf } = await import("@react-pdf/renderer");
+                        const { default: QuotePDF } =
+                          await import("../components/QuotePDF");
+                        const blob = await pdf(
+                          <QuotePDF quote={q} sender={sender} />,
+                        ).toBlob();
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `${q.folio}.pdf`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        setGeneratingPDF(null);
+                      }}
+                      disabled={generatingPDF === q.id}
+                      className="text-sm text-green-600 hover:underline ml-3 disabled:text-gray-400 inline-block w-20 text-left"
                     >
-                      PDF
-                    </PDFDownloadLink>
+                      {generatingPDF === q.id ? "Generando..." : "PDF"}
+                    </button>
+                    <button
+                      onClick={() => handleDelete(q.id, q.folio)}
+                      className="text-sm text-red-400 hover:underline ml-3"
+                    >
+                      Eliminar
+                    </button>
                   </td>
                 </tr>
               ))}

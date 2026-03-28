@@ -120,12 +120,22 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.SenderProfileScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  company: 'company',
+  phone: 'phone',
+  email: 'email',
+  address: 'address'
+};
+
 exports.Prisma.ClientScalarFieldEnum = {
   id: 'id',
   name: 'name',
   company: 'company',
   phone: 'phone',
   email: 'email',
+  address: 'address',
   createdAt: 'createdAt'
 };
 
@@ -133,14 +143,16 @@ exports.Prisma.QuoteScalarFieldEnum = {
   id: 'id',
   folio: 'folio',
   clientId: 'clientId',
-  maqType: 'maqType',
+  maqBrand: 'maqBrand',
   maqModel: 'maqModel',
+  maqType: 'maqType',
   maqSerial: 'maqSerial',
   maqHours: 'maqHours',
-  diagnosis: 'diagnosis',
+  maqCondition: 'maqCondition',
   delivery: 'delivery',
   validity: 'validity',
   notes: 'notes',
+  advance: 'advance',
   status: 'status',
   createdAt: 'createdAt'
 };
@@ -148,8 +160,8 @@ exports.Prisma.QuoteScalarFieldEnum = {
 exports.Prisma.QuoteItemScalarFieldEnum = {
   id: 'id',
   quoteId: 'quoteId',
+  section: 'section',
   desc: 'desc',
-  type: 'type',
   qty: 'qty',
   price: 'price'
 };
@@ -179,6 +191,7 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
+  SenderProfile: 'SenderProfile',
   Client: 'Client',
   Quote: 'Quote',
   QuoteItem: 'QuoteItem',

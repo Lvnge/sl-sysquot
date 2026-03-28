@@ -1,6 +1,6 @@
 export interface QuoteItem {
+  section: string;
   desc: string;
-  type: string;
   qty: number;
   price: number;
 }
@@ -10,14 +10,22 @@ export interface Quote {
   status: string;
   createdAt: string;
   clientId: number;
-  client: { name: string; company?: string; phone?: string; email?: string };
-  maqType?: string;
+  client: {
+    name: string;
+    company?: string;
+    phone?: string;
+    email?: string;
+    address?: string;
+  };
+  maqBrand?: string;
   maqModel?: string;
+  maqType?: string;
   maqSerial?: string;
   maqHours?: string;
-  diagnosis?: string;
+  maqCondition?: string;
   delivery?: string;
   validity?: string;
   notes?: string;
+  advance?: number;
   items: QuoteItem[];
 }

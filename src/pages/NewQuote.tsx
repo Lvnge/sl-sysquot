@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
+import logo from "../assets/logo.png";
+
 import {
   createQuote,
   updateQuote,
   getQuotes,
   getClients,
   createClient,
+  getSender,
+  updateSender,
 } from "../services/api";
 
 interface Item {
+  section: string;
   desc: string;
-  type: string;
   qty: number;
   price: number;
 }
@@ -20,10 +24,115 @@ interface Client {
   name: string;
   company?: string;
 }
+interface Sender {
+  id: number;
+  name: string;
+  company: string;
+  phone: string;
+  email: string;
+  address: string;
+}
 
+const inputCls =
+  "border border-gray-300 rounded-lg px-3 py-2 text-sm w-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-300";
+const labelCls = "block text-xs font-medium text-gray-600 mb-1";
+export const Section = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <div className="bg-white rounded-xl border border-gray-200 p-5">
+    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">
+      {title}
+    </p>
+    {children}
+  </div>
+);
+export const ItemRow = ({
+  item,
+  index,
+  onUpdate,
+  onRemove,
+}: {
+  item: Item;
+  index: number;
+  onUpdate: (i: number, f: keyof Item, v: string | number) => void;
+  onRemove: (i: number) => void;
+}) => (
+  <div className="grid grid-cols-12 gap-2 items-center py-2 border-b border-gray-100 last:border-0">
+    <div className="col-span-4">
+      <input
+        value={item.desc}
+        onChange={(e) => onUpdate(index, "desc", e.target.value)}
+        placeholder="Descripción"
+        className={inputCls}
+      />
+    </div>
+    <div className="col-span-2">
+      <input
+        type="number"
+        min="0"
+        step="1"
+        value={item.qty === 0 ? "" : item.qty}
+        onChange={(e) =>
+          onUpdate(
+            index,
+            "qty",
+            e.target.value === "" ? 0 : Number(e.target.value),
+          )
+        }
+        placeholder="0"
+        className="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 text-right w-full"
+      />
+    </div>
+    <div className="col-span-3">
+      <input
+        type="number"
+        min="0"
+        step="0.01"
+        value={item.price === 0 ? "" : item.price}
+        onChange={(e) =>
+          onUpdate(
+            index,
+            "price",
+            e.target.value === "" ? 0 : Number(e.target.value),
+          )
+        }
+        placeholder="0.00"
+        className="border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 text-right w-full"
+      />
+    </div>
+    <div className="col-span-2 text-right text-sm font-medium text-gray-700 pr-1">
+      {(item.qty * item.price).toLocaleString("es-MX", {
+        style: "currency",
+        currency: "MXN",
+      })}
+    </div>
+    <div className="col-span-1 flex justify-center">
+      <button
+        onClick={() => onRemove(index)}
+        className="text-gray-300 hover:text-red-400 text-xl leading-none"
+      >
+        ×
+      </button>
+    </div>
+  </div>
+);
 export default function NewQuote() {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [sender, setSender] = useState<Sender>({
+    id: 0,
+    name: "",
+    company: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
+  const [editingSender, setEditingSender] = useState(false);
   const [clients, setClients] = useState<Client[]>([]);
   const [clientId, setClientId] = useState<number | "">("");
   const [newClient, setNewClient] = useState({
@@ -31,63 +140,106 @@ export default function NewQuote() {
     company: "",
     phone: "",
     email: "",
+    address: "",
   });
   const [useExisting, setUseExisting] = useState(false);
-  const [maqType, setMaqType] = useState("");
+  const [maqBrand, setMaqBrand] = useState("");
   const [maqModel, setMaqModel] = useState("");
+  const [maqType, setMaqType] = useState("");
   const [maqSerial, setMaqSerial] = useState("");
   const [maqHours, setMaqHours] = useState("");
-  const [diagnosis, setDiagnosis] = useState("");
+  const [maqCondition, setMaqCondition] = useState("");
   const [delivery, setDelivery] = useState("");
   const [validity, setValidity] = useState("");
   const [notes, setNotes] = useState("");
   const [status, setStatus] = useState("Borrador");
-  const [items, setItems] = useState<Item[]>([]);
-
+  const [services, setServices] = useState<Item[]>([]);
+  const [parts, setParts] = useState<Item[]>([]);
+  const [advance, setAdvance] = useState<number>(0);
+  const [folio, setFolio] = useState(() => "COT-" + Date.now());
   useEffect(() => {
+    getSender().then((r) => setSender(r.data));
     getClients().then((r) => setClients(r.data));
     if (id) {
       getQuotes().then((r) => {
-        const q = r.data.find((q: any) => q.id === Number(id));
+        const q = r.data.find((q: { id: number }) => q.id === Number(id));
         if (!q) return;
+        setFolio(q.folio);
         setClientId(q.clientId);
         setUseExisting(true);
-        setMaqType(q.maqType || "");
+        setMaqBrand(q.maqBrand || "");
         setMaqModel(q.maqModel || "");
+        setMaqType(q.maqType || "");
         setMaqSerial(q.maqSerial || "");
         setMaqHours(q.maqHours || "");
-        setDiagnosis(q.diagnosis || "");
+        setMaqCondition(q.maqCondition || "");
         setDelivery(q.delivery || "");
         setValidity(q.validity || "");
         setNotes(q.notes || "");
         setStatus(q.status);
-        setItems(
-          q.items.map(({ desc, type, qty, price }: Item) => ({
-            desc,
-            type,
-            qty,
-            price,
-          })),
+        setAdvance(q.advance || 0);
+        setServices(
+          q.items
+            .filter((i: Item) => i.section === "servicio")
+            .map(({ section, desc, qty, price }: Item) => ({
+              section,
+              desc,
+              qty,
+              price,
+            })),
+        );
+        setParts(
+          q.items
+            .filter((i: Item) => i.section === "refaccion")
+            .map(({ section, desc, qty, price }: Item) => ({
+              section,
+              desc,
+              qty,
+              price,
+            })),
         );
       });
     }
   }, [id]);
 
-  const addItem = () =>
-    setItems([...items, { desc: "", type: "servicio", qty: 1, price: 0 }]);
-  const removeItem = (i: number) =>
-    setItems(items.filter((_, idx) => idx !== i));
-  const updateItem = (i: number, field: keyof Item, value: string | number) => {
-    const copy = [...items];
+  const addService = () =>
+    setServices([
+      ...services,
+      { section: "servicio", desc: "", qty: 1, price: 0 },
+    ]);
+  const addPart = () =>
+    setParts([...parts, { section: "refaccion", desc: "", qty: 1, price: 0 }]);
+  const removeService = (i: number) =>
+    setServices(services.filter((_, idx) => idx !== i));
+  const removePart = (i: number) =>
+    setParts(parts.filter((_, idx) => idx !== i));
+  const updateService = (
+    i: number,
+    field: keyof Item,
+    value: string | number,
+  ) => {
+    const copy = [...services];
     copy[i] = { ...copy[i], [field]: value };
-    setItems(copy);
+    setServices(copy);
+  };
+  const updatePart = (i: number, field: keyof Item, value: string | number) => {
+    const copy = [...parts];
+    copy[i] = { ...copy[i], [field]: value };
+    setParts(copy);
   };
 
-  const subtotal = items.reduce((a, i) => a + i.qty * i.price, 0);
+  const allItems = [...services, ...parts];
+  const subtotal = allItems.reduce((a, i) => a + i.qty * i.price, 0);
   const iva = subtotal * 0.16;
   const total = subtotal + iva;
+  const remaining = total - advance;
   const fmt = (n: number) =>
     n.toLocaleString("es-MX", { style: "currency", currency: "MXN" });
+
+  const saveSender = async () => {
+    await updateSender(sender);
+    setEditingSender(false);
+  };
 
   const save = async () => {
     let finalClientId = clientId;
@@ -97,301 +249,458 @@ export default function NewQuote() {
       finalClientId = r.data.id;
     }
     if (!finalClientId) return alert("Selecciona o crea un cliente");
-    const folio = id ? undefined : "COT-" + Date.now();
     const data = {
       clientId: finalClientId,
       folio,
-      maqType,
+      maqBrand,
       maqModel,
+      maqType,
       maqSerial,
       maqHours,
-      diagnosis,
+      maqCondition,
       delivery,
       validity,
       notes,
       status,
-      items,
+      advance,
+      items: allItems,
     };
-    id ? await updateQuote(Number(id), data) : await createQuote(data);
+    if (id) {
+      await updateQuote(Number(id), data);
+    } else {
+      await createQuote(data);
+    }
     navigate("/");
   };
 
   return (
     <Layout>
-      <div className="p-6 max-w-4xl">
-        <div className="flex justify-between items-center mb-6">
+      <div className="p-6 max-w-4xl flex flex-col gap-4">
+        <div className="flex justify-between items-center">
           <h2 className="text-base font-medium">
-            {id ? "Editar cotización" : "Nueva cotización"}
+            {id ? `Editar ${folio}` : "Nueva cotización"}{" "}
+            <span className="text-xs text-gray-400 font-normal ml-2">
+              {folio}
+            </span>
           </h2>
           <div className="flex gap-2">
             <button
               onClick={() => navigate("/")}
-              className="text-sm px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50"
+              className="text-sm px-4 py-2 rounded-lg border border-gray-200 hover:bg-red-500 hover:border-red-800 hover:text-white transition-colors"
             >
               Cancelar
-            </button>
-            <button
-              onClick={save}
-              className="text-sm px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
-            >
-              Guardar
             </button>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-5">
-          <div>
-            <div className="flex gap-4 mb-3">
-              <label className="flex items-center gap-2 text-sm cursor-pointer">
-                <input
-                  type="radio"
-                  checked={!useExisting}
-                  onChange={() => setUseExisting(false)}
-                />{" "}
-                Cliente nuevo
-              </label>
-              <label className="flex items-center gap-2 text-sm cursor-pointer">
-                <input
-                  type="radio"
-                  checked={useExisting}
-                  onChange={() => setUseExisting(true)}
-                />{" "}
-                Cliente existente
-              </label>
-            </div>
-            {useExisting ? (
-              <select
-                value={clientId}
-                onChange={(e) => setClientId(Number(e.target.value))}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm w-full"
-              >
-                <option value="">Selecciona un cliente...</option>
-                {clients.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name} {c.company ? `— ${c.company}` : ""}
-                  </option>
-                ))}
-              </select>
-            ) : (
+        {/* Remitente */}
+        <Section title="Datos del remitente">
+          {editingSender ? (
+            <div className="flex flex-col gap-3">
               <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className={labelCls}>Nombre</label>
+                  <input
+                    value={sender.name}
+                    onChange={(e) =>
+                      setSender({ ...sender, name: e.target.value })
+                    }
+                    className={inputCls}
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>Empresa</label>
+                  <input
+                    value={sender.company}
+                    onChange={(e) =>
+                      setSender({ ...sender, company: e.target.value })
+                    }
+                    className={inputCls}
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>Teléfono</label>
+                  <input
+                    value={sender.phone}
+                    onChange={(e) =>
+                      setSender({ ...sender, phone: e.target.value })
+                    }
+                    className={inputCls}
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>Correo</label>
+                  <input
+                    value={sender.email}
+                    onChange={(e) =>
+                      setSender({ ...sender, email: e.target.value })
+                    }
+                    className={inputCls}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className={labelCls}>Dirección</label>
+                  <input
+                    value={sender.address}
+                    onChange={(e) =>
+                      setSender({ ...sender, address: e.target.value })
+                    }
+                    className={inputCls}
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2 justify-end">
+                <button
+                  onClick={() => setEditingSender(false)}
+                  className="text-sm px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={saveSender}
+                  className="text-sm px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                >
+                  Guardar datos
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-between items-start">
+              <div className="flex gap-4 items-start">
+                <img src={logo} alt="Logo" className="h-20 object-contain" />
+                <div className="text-sm text-gray-700 flex flex-col gap-0.5">
+                  {sender.name ? (
+                    <span className="font-medium">{sender.name}</span>
+                  ) : (
+                    <span className="text-gray-400">Sin nombre</span>
+                  )}
+                  {sender.company && <span>{sender.company}</span>}
+                  {sender.phone && <span>{sender.phone}</span>}
+                  {sender.email && <span>{sender.email}</span>}
+                  {sender.address && <span>{sender.address}</span>}
+                  <span className="text-gray-400 mt-1">
+                    Folio:{" "}
+                    <span className="text-blue-600 font-medium">{folio}</span>
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setEditingSender(true)}
+                className="text-xs text-blue-600 hover:underline"
+              >
+                Editar
+              </button>
+            </div>
+          )}
+        </Section>
+
+        {/* Cliente */}
+        <Section title="Datos del cliente">
+          <div className="flex gap-4 mb-3">
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="radio"
+                checked={!useExisting}
+                onChange={() => setUseExisting(false)}
+              />{" "}
+              Cliente nuevo
+            </label>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="radio"
+                checked={useExisting}
+                onChange={() => setUseExisting(true)}
+              />{" "}
+              Cliente existente
+            </label>
+          </div>
+          {useExisting ? (
+            <select
+              value={clientId}
+              onChange={(e) => setClientId(Number(e.target.value))}
+              className={inputCls}
+            >
+              <option value="">Selecciona un cliente...</option>
+              {clients.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                  {c.company ? ` — ${c.company}` : ""}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={labelCls}>Nombre *</label>
                 <input
-                  placeholder="Nombre *"
                   value={newClient.name}
                   onChange={(e) =>
                     setNewClient({ ...newClient, name: e.target.value })
                   }
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                  className={inputCls}
                 />
+              </div>
+              <div>
+                <label className={labelCls}>Empresa</label>
                 <input
-                  placeholder="Empresa"
                   value={newClient.company}
                   onChange={(e) =>
                     setNewClient({ ...newClient, company: e.target.value })
                   }
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                  className={inputCls}
                 />
+              </div>
+              <div>
+                <label className={labelCls}>Teléfono</label>
                 <input
-                  placeholder="Teléfono"
                   value={newClient.phone}
                   onChange={(e) =>
                     setNewClient({ ...newClient, phone: e.target.value })
                   }
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                  className={inputCls}
                 />
+              </div>
+              <div>
+                <label className={labelCls}>Correo</label>
                 <input
-                  placeholder="Correo"
                   value={newClient.email}
                   onChange={(e) =>
                     setNewClient({ ...newClient, email: e.target.value })
                   }
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                  className={inputCls}
                 />
               </div>
-            )}
-          </div>
-
-          <div>
-            <p className="text-xs font-medium text-gray-500 uppercase mb-3">
-              Maquinaria
-            </p>
-            <div className="grid grid-cols-2 gap-3">
-              <input
-                placeholder="Tipo / marca"
-                value={maqType}
-                onChange={(e) => setMaqType(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
-              />
-              <input
-                placeholder="Modelo / año"
-                value={maqModel}
-                onChange={(e) => setMaqModel(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
-              />
-              <input
-                placeholder="Número de serie"
-                value={maqSerial}
-                onChange={(e) => setMaqSerial(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
-              />
-              <input
-                placeholder="Horas de operación"
-                value={maqHours}
-                onChange={(e) => setMaqHours(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
-              />
-              <textarea
-                placeholder="Diagnóstico / descripción del problema"
-                value={diagnosis}
-                onChange={(e) => setDiagnosis(e.target.value)}
-                rows={2}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm col-span-2"
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex justify-between items-center mb-3">
-              <p className="text-xs font-medium text-gray-500 uppercase">
-                Servicios y refacciones
-              </p>
-              <button
-                onClick={addItem}
-                className="text-xs px-3 py-1 rounded-lg border border-gray-200 hover:bg-gray-50"
-              >
-                + Agregar línea
-              </button>
-            </div>
-            <table className="w-full text-sm border border-gray-100 rounded-lg overflow-hidden">
-              <thead className="bg-gray-50 text-xs text-gray-500">
-                <tr>
-                  <th className="text-left px-3 py-2 w-2/5">Descripción</th>
-                  <th className="text-left px-3 py-2">Tipo</th>
-                  <th className="text-left px-3 py-2">Cant.</th>
-                  <th className="text-left px-3 py-2">Precio</th>
-                  <th className="text-left px-3 py-2">Subtotal</th>
-                  <th className="px-3 py-2"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((item, i) => (
-                  <tr key={i} className="border-t border-gray-100">
-                    <td className="px-2 py-1">
-                      <input
-                        value={item.desc}
-                        onChange={(e) => updateItem(i, "desc", e.target.value)}
-                        className="w-full text-sm px-2 py-1 rounded border-0 focus:ring-1 focus:ring-blue-300 outline-none"
-                      />
-                    </td>
-                    <td className="px-2 py-1">
-                      <select
-                        value={item.type}
-                        onChange={(e) => updateItem(i, "type", e.target.value)}
-                        className="text-sm px-2 py-1 rounded border border-gray-200"
-                      >
-                        <option value="servicio">Servicio</option>
-                        <option value="refaccion">Refacción</option>
-                      </select>
-                    </td>
-                    <td className="px-2 py-1">
-                      <input
-                        type="number"
-                        value={item.qty}
-                        onChange={(e) =>
-                          updateItem(i, "qty", Number(e.target.value))
-                        }
-                        className="w-16 text-sm px-2 py-1 rounded border border-gray-200 text-right"
-                      />
-                    </td>
-                    <td className="px-2 py-1">
-                      <input
-                        type="number"
-                        value={item.price}
-                        onChange={(e) =>
-                          updateItem(i, "price", Number(e.target.value))
-                        }
-                        className="w-24 text-sm px-2 py-1 rounded border border-gray-200 text-right"
-                      />
-                    </td>
-                    <td className="px-2 py-1 font-medium">
-                      {fmt(item.qty * item.price)}
-                    </td>
-                    <td className="px-2 py-1">
-                      <button
-                        onClick={() => removeItem(i)}
-                        className="text-gray-300 hover:text-red-400 text-lg"
-                      >
-                        ×
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                {items.length === 0 && (
-                  <tr>
-                    <td
-                      colSpan={6}
-                      className="px-3 py-6 text-center text-gray-400 text-xs"
-                    >
-                      Sin conceptos aún
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-            <div className="flex justify-end mt-3">
-              <div className="text-sm flex flex-col gap-1 min-w-48">
-                <div className="flex justify-between text-gray-500">
-                  <span>Subtotal</span>
-                  <span>{fmt(subtotal)}</span>
-                </div>
-                <div className="flex justify-between text-gray-500">
-                  <span>IVA 16%</span>
-                  <span>{fmt(iva)}</span>
-                </div>
-                <div className="flex justify-between font-medium border-t border-gray-200 pt-1 mt-1">
-                  <span>Total</span>
-                  <span>{fmt(total)}</span>
-                </div>
+              <div className="col-span-2">
+                <label className={labelCls}>Dirección</label>
+                <input
+                  value={newClient.address}
+                  onChange={(e) =>
+                    setNewClient({ ...newClient, address: e.target.value })
+                  }
+                  className={inputCls}
+                />
               </div>
             </div>
-          </div>
+          )}
+        </Section>
 
-          <div>
-            <p className="text-xs font-medium text-gray-500 uppercase mb-3">
-              Condiciones
-            </p>
-            <div className="grid grid-cols-2 gap-3">
+        {/* Maquinaria */}
+        <Section title="Maquinaria">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={labelCls}>Marca</label>
               <input
-                placeholder="Tiempo de entrega"
+                value={maqBrand}
+                onChange={(e) => setMaqBrand(e.target.value)}
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className={labelCls}>Modelo</label>
+              <input
+                value={maqModel}
+                onChange={(e) => setMaqModel(e.target.value)}
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className={labelCls}>Tipo</label>
+              <input
+                value={maqType}
+                onChange={(e) => setMaqType(e.target.value)}
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className={labelCls}>Número de serie</label>
+              <input
+                value={maqSerial}
+                onChange={(e) => setMaqSerial(e.target.value)}
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className={labelCls}>Horómetro</label>
+              <input
+                value={maqHours}
+                onChange={(e) => setMaqHours(e.target.value)}
+                className={inputCls}
+              />
+            </div>
+            <div className="col-span-2">
+              <label className={labelCls}>Condiciones actuales</label>
+              <textarea
+                value={maqCondition}
+                onChange={(e) => setMaqCondition(e.target.value)}
+                rows={2}
+                className={inputCls}
+              />
+            </div>
+          </div>
+        </Section>
+
+        {/* Servicios */}
+        <Section title="Servicios">
+          <div className="grid grid-cols-12 gap-2 mb-2">
+            <div className="col-span-4 text-xs text-gray-400 font-medium">
+              Descripción
+            </div>
+            <div className="col-span-2 text-xs text-gray-400 font-medium text-right">
+              Cantidad
+            </div>
+            <div className="col-span-3 text-xs text-gray-400 font-medium text-right">
+              Precio unit.
+            </div>
+            <div className="col-span-2 text-xs text-gray-400 font-medium text-right">
+              Total
+            </div>
+            <div className="col-span-1"></div>
+          </div>
+          {services.map((item, i) => (
+            <ItemRow
+              key={i}
+              item={item}
+              index={i}
+              onUpdate={updateService}
+              onRemove={removeService}
+            />
+          ))}
+          {services.length === 0 && (
+            <p className="text-xs text-gray-400 py-3 text-center">
+              Sin servicios agregados
+            </p>
+          )}
+          <button
+            onClick={addService}
+            className="mt-3 text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50"
+          >
+            + Agregar servicio
+          </button>
+        </Section>
+
+        {/* Refacciones */}
+        <Section title="Refacciones">
+          <div className="grid grid-cols-12 gap-2 mb-2">
+            <div className="col-span-4 text-xs text-gray-400 font-medium">
+              Descripción
+            </div>
+            <div className="col-span-2 text-xs text-gray-400 font-medium text-right">
+              Cantidad
+            </div>
+            <div className="col-span-3 text-xs text-gray-400 font-medium text-right">
+              Precio unit.
+            </div>
+            <div className="col-span-2 text-xs text-gray-400 font-medium text-right">
+              Total
+            </div>
+            <div className="col-span-1"></div>
+          </div>
+          {parts.map((item, i) => (
+            <ItemRow
+              key={i}
+              item={item}
+              index={i}
+              onUpdate={updatePart}
+              onRemove={removePart}
+            />
+          ))}
+          {parts.length === 0 && (
+            <p className="text-xs text-gray-400 py-3 text-center">
+              Sin refacciones agregadas
+            </p>
+          )}
+          <button
+            onClick={addPart}
+            className="mt-3 text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50"
+          >
+            + Agregar refacción
+          </button>
+        </Section>
+
+        {/* Condiciones */}
+        <Section title="Condiciones y notas">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={labelCls}>Tiempo de entrega</label>
+              <input
                 value={delivery}
                 onChange={(e) => setDelivery(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                className={inputCls}
               />
+            </div>
+            <div>
+              <label className={labelCls}>Vigencia de cotización</label>
               <input
-                placeholder="Vigencia de cotización"
                 value={validity}
                 onChange={(e) => setValidity(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                className={inputCls}
               />
+            </div>
+            <div>
+              <label className={labelCls}>Estado</label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                className={inputCls}
               >
                 <option>Borrador</option>
                 <option>Pendiente</option>
                 <option>Enviada</option>
                 <option>Aprobada</option>
               </select>
+            </div>
+            <div className="col-span-2">
+              <label className={labelCls}>Notas adicionales</label>
               <textarea
-                placeholder="Notas adicionales"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm col-span-2"
+                className={inputCls}
               />
             </div>
           </div>
-        </div>
+        </Section>
+
+        {/* Totales */}
+        <Section title="Resumen de pago">
+          <div className="flex flex-col gap-2 max-w-xs ml-auto">
+            <div className="flex justify-between text-sm text-gray-500">
+              <span>Subtotal</span>
+              <span>{fmt(subtotal)}</span>
+            </div>
+            <div className="flex justify-between text-sm text-gray-500">
+              <span>IVA (16%)</span>
+              <span>{fmt(iva)}</span>
+            </div>
+            <div className="flex justify-between text-sm font-semibold border-t border-gray-200 pt-2 mt-1">
+              <span>Total</span>
+              <span>{fmt(total)}</span>
+            </div>
+            <div className="flex justify-between items-center text-sm text-gray-500 mt-2">
+              <span>Anticipo</span>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={advance}
+                onChange={(e) => setAdvance(Number(e.target.value))}
+                className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm text-right w-36 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
+              />
+            </div>
+            <div className="flex justify-between text-sm font-semibold text-blue-600 border-t border-gray-200 pt-2 mt-1">
+              <span>Resto a pagar</span>
+              <span>{fmt(remaining)}</span>
+            </div>
+          </div>
+          <div className="flex justify-end mt-6">
+            <button
+              onClick={save}
+              className="px-6 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
+            >
+              {id ? "Guardar cambios" : "Generar cotización"}
+            </button>
+          </div>
+        </Section>
       </div>
     </Layout>
   );

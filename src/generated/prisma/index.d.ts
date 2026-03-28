@@ -14,6 +14,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model SenderProfile
+ * 
+ */
+export type SenderProfile = $Result.DefaultSelection<Prisma.$SenderProfilePayload>
+/**
  * Model Client
  * 
  */
@@ -43,8 +48,8 @@ export type CatalogItem = $Result.DefaultSelection<Prisma.$CatalogItemPayload>
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Clients
- * const clients = await prisma.client.findMany()
+ * // Fetch zero or more SenderProfiles
+ * const senderProfiles = await prisma.senderProfile.findMany()
  * ```
  *
  *
@@ -66,8 +71,8 @@ export class PrismaClient<
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Clients
-   * const clients = await prisma.client.findMany()
+   * // Fetch zero or more SenderProfiles
+   * const senderProfiles = await prisma.senderProfile.findMany()
    * ```
    *
    *
@@ -156,6 +161,16 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.senderProfile`: Exposes CRUD operations for the **SenderProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SenderProfiles
+    * const senderProfiles = await prisma.senderProfile.findMany()
+    * ```
+    */
+  get senderProfile(): Prisma.SenderProfileDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.client`: Exposes CRUD operations for the **Client** model.
     * Example usage:
     * ```ts
@@ -628,6 +643,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    SenderProfile: 'SenderProfile',
     Client: 'Client',
     Quote: 'Quote',
     QuoteItem: 'QuoteItem',
@@ -647,10 +663,84 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "client" | "quote" | "quoteItem" | "catalogItem"
+      modelProps: "senderProfile" | "client" | "quote" | "quoteItem" | "catalogItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      SenderProfile: {
+        payload: Prisma.$SenderProfilePayload<ExtArgs>
+        fields: Prisma.SenderProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SenderProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SenderProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.SenderProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SenderProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload>
+          }
+          findMany: {
+            args: Prisma.SenderProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload>[]
+          }
+          create: {
+            args: Prisma.SenderProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload>
+          }
+          createMany: {
+            args: Prisma.SenderProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SenderProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.SenderProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload>
+          }
+          update: {
+            args: Prisma.SenderProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.SenderProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SenderProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SenderProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.SenderProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SenderProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.SenderProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSenderProfile>
+          }
+          groupBy: {
+            args: Prisma.SenderProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SenderProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SenderProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<SenderProfileCountAggregateOutputType> | number
+          }
+        }
+      }
       Client: {
         payload: Prisma.$ClientPayload<ExtArgs>
         fields: Prisma.ClientFieldRefs
@@ -1055,6 +1145,7 @@ export namespace Prisma {
     comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
+    senderProfile?: SenderProfileOmit
     client?: ClientOmit
     quote?: QuoteOmit
     quoteItem?: QuoteItemOmit
@@ -1201,6 +1292,1053 @@ export namespace Prisma {
    */
 
   /**
+   * Model SenderProfile
+   */
+
+  export type AggregateSenderProfile = {
+    _count: SenderProfileCountAggregateOutputType | null
+    _avg: SenderProfileAvgAggregateOutputType | null
+    _sum: SenderProfileSumAggregateOutputType | null
+    _min: SenderProfileMinAggregateOutputType | null
+    _max: SenderProfileMaxAggregateOutputType | null
+  }
+
+  export type SenderProfileAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SenderProfileSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SenderProfileMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    company: string | null
+    phone: string | null
+    email: string | null
+    address: string | null
+  }
+
+  export type SenderProfileMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    company: string | null
+    phone: string | null
+    email: string | null
+    address: string | null
+  }
+
+  export type SenderProfileCountAggregateOutputType = {
+    id: number
+    name: number
+    company: number
+    phone: number
+    email: number
+    address: number
+    _all: number
+  }
+
+
+  export type SenderProfileAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type SenderProfileSumAggregateInputType = {
+    id?: true
+  }
+
+  export type SenderProfileMinAggregateInputType = {
+    id?: true
+    name?: true
+    company?: true
+    phone?: true
+    email?: true
+    address?: true
+  }
+
+  export type SenderProfileMaxAggregateInputType = {
+    id?: true
+    name?: true
+    company?: true
+    phone?: true
+    email?: true
+    address?: true
+  }
+
+  export type SenderProfileCountAggregateInputType = {
+    id?: true
+    name?: true
+    company?: true
+    phone?: true
+    email?: true
+    address?: true
+    _all?: true
+  }
+
+  export type SenderProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SenderProfile to aggregate.
+     */
+    where?: SenderProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SenderProfiles to fetch.
+     */
+    orderBy?: SenderProfileOrderByWithRelationInput | SenderProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SenderProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SenderProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SenderProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SenderProfiles
+    **/
+    _count?: true | SenderProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SenderProfileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SenderProfileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SenderProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SenderProfileMaxAggregateInputType
+  }
+
+  export type GetSenderProfileAggregateType<T extends SenderProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateSenderProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSenderProfile[P]>
+      : GetScalarType<T[P], AggregateSenderProfile[P]>
+  }
+
+
+
+
+  export type SenderProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SenderProfileWhereInput
+    orderBy?: SenderProfileOrderByWithAggregationInput | SenderProfileOrderByWithAggregationInput[]
+    by: SenderProfileScalarFieldEnum[] | SenderProfileScalarFieldEnum
+    having?: SenderProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SenderProfileCountAggregateInputType | true
+    _avg?: SenderProfileAvgAggregateInputType
+    _sum?: SenderProfileSumAggregateInputType
+    _min?: SenderProfileMinAggregateInputType
+    _max?: SenderProfileMaxAggregateInputType
+  }
+
+  export type SenderProfileGroupByOutputType = {
+    id: number
+    name: string
+    company: string
+    phone: string
+    email: string
+    address: string
+    _count: SenderProfileCountAggregateOutputType | null
+    _avg: SenderProfileAvgAggregateOutputType | null
+    _sum: SenderProfileSumAggregateOutputType | null
+    _min: SenderProfileMinAggregateOutputType | null
+    _max: SenderProfileMaxAggregateOutputType | null
+  }
+
+  type GetSenderProfileGroupByPayload<T extends SenderProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SenderProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SenderProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SenderProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], SenderProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SenderProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    company?: boolean
+    phone?: boolean
+    email?: boolean
+    address?: boolean
+  }, ExtArgs["result"]["senderProfile"]>
+
+  export type SenderProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    company?: boolean
+    phone?: boolean
+    email?: boolean
+    address?: boolean
+  }, ExtArgs["result"]["senderProfile"]>
+
+  export type SenderProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    company?: boolean
+    phone?: boolean
+    email?: boolean
+    address?: boolean
+  }, ExtArgs["result"]["senderProfile"]>
+
+  export type SenderProfileSelectScalar = {
+    id?: boolean
+    name?: boolean
+    company?: boolean
+    phone?: boolean
+    email?: boolean
+    address?: boolean
+  }
+
+  export type SenderProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "company" | "phone" | "email" | "address", ExtArgs["result"]["senderProfile"]>
+
+  export type $SenderProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SenderProfile"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      company: string
+      phone: string
+      email: string
+      address: string
+    }, ExtArgs["result"]["senderProfile"]>
+    composites: {}
+  }
+
+  type SenderProfileGetPayload<S extends boolean | null | undefined | SenderProfileDefaultArgs> = $Result.GetResult<Prisma.$SenderProfilePayload, S>
+
+  type SenderProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SenderProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SenderProfileCountAggregateInputType | true
+    }
+
+  export interface SenderProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SenderProfile'], meta: { name: 'SenderProfile' } }
+    /**
+     * Find zero or one SenderProfile that matches the filter.
+     * @param {SenderProfileFindUniqueArgs} args - Arguments to find a SenderProfile
+     * @example
+     * // Get one SenderProfile
+     * const senderProfile = await prisma.senderProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SenderProfileFindUniqueArgs>(args: SelectSubset<T, SenderProfileFindUniqueArgs<ExtArgs>>): Prisma__SenderProfileClient<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SenderProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SenderProfileFindUniqueOrThrowArgs} args - Arguments to find a SenderProfile
+     * @example
+     * // Get one SenderProfile
+     * const senderProfile = await prisma.senderProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SenderProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, SenderProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SenderProfileClient<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SenderProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SenderProfileFindFirstArgs} args - Arguments to find a SenderProfile
+     * @example
+     * // Get one SenderProfile
+     * const senderProfile = await prisma.senderProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SenderProfileFindFirstArgs>(args?: SelectSubset<T, SenderProfileFindFirstArgs<ExtArgs>>): Prisma__SenderProfileClient<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SenderProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SenderProfileFindFirstOrThrowArgs} args - Arguments to find a SenderProfile
+     * @example
+     * // Get one SenderProfile
+     * const senderProfile = await prisma.senderProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SenderProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, SenderProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__SenderProfileClient<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SenderProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SenderProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SenderProfiles
+     * const senderProfiles = await prisma.senderProfile.findMany()
+     * 
+     * // Get first 10 SenderProfiles
+     * const senderProfiles = await prisma.senderProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const senderProfileWithIdOnly = await prisma.senderProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SenderProfileFindManyArgs>(args?: SelectSubset<T, SenderProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SenderProfile.
+     * @param {SenderProfileCreateArgs} args - Arguments to create a SenderProfile.
+     * @example
+     * // Create one SenderProfile
+     * const SenderProfile = await prisma.senderProfile.create({
+     *   data: {
+     *     // ... data to create a SenderProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends SenderProfileCreateArgs>(args: SelectSubset<T, SenderProfileCreateArgs<ExtArgs>>): Prisma__SenderProfileClient<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SenderProfiles.
+     * @param {SenderProfileCreateManyArgs} args - Arguments to create many SenderProfiles.
+     * @example
+     * // Create many SenderProfiles
+     * const senderProfile = await prisma.senderProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SenderProfileCreateManyArgs>(args?: SelectSubset<T, SenderProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SenderProfiles and returns the data saved in the database.
+     * @param {SenderProfileCreateManyAndReturnArgs} args - Arguments to create many SenderProfiles.
+     * @example
+     * // Create many SenderProfiles
+     * const senderProfile = await prisma.senderProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SenderProfiles and only return the `id`
+     * const senderProfileWithIdOnly = await prisma.senderProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SenderProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, SenderProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SenderProfile.
+     * @param {SenderProfileDeleteArgs} args - Arguments to delete one SenderProfile.
+     * @example
+     * // Delete one SenderProfile
+     * const SenderProfile = await prisma.senderProfile.delete({
+     *   where: {
+     *     // ... filter to delete one SenderProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SenderProfileDeleteArgs>(args: SelectSubset<T, SenderProfileDeleteArgs<ExtArgs>>): Prisma__SenderProfileClient<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SenderProfile.
+     * @param {SenderProfileUpdateArgs} args - Arguments to update one SenderProfile.
+     * @example
+     * // Update one SenderProfile
+     * const senderProfile = await prisma.senderProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SenderProfileUpdateArgs>(args: SelectSubset<T, SenderProfileUpdateArgs<ExtArgs>>): Prisma__SenderProfileClient<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SenderProfiles.
+     * @param {SenderProfileDeleteManyArgs} args - Arguments to filter SenderProfiles to delete.
+     * @example
+     * // Delete a few SenderProfiles
+     * const { count } = await prisma.senderProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SenderProfileDeleteManyArgs>(args?: SelectSubset<T, SenderProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SenderProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SenderProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SenderProfiles
+     * const senderProfile = await prisma.senderProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SenderProfileUpdateManyArgs>(args: SelectSubset<T, SenderProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SenderProfiles and returns the data updated in the database.
+     * @param {SenderProfileUpdateManyAndReturnArgs} args - Arguments to update many SenderProfiles.
+     * @example
+     * // Update many SenderProfiles
+     * const senderProfile = await prisma.senderProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SenderProfiles and only return the `id`
+     * const senderProfileWithIdOnly = await prisma.senderProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SenderProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, SenderProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SenderProfile.
+     * @param {SenderProfileUpsertArgs} args - Arguments to update or create a SenderProfile.
+     * @example
+     * // Update or create a SenderProfile
+     * const senderProfile = await prisma.senderProfile.upsert({
+     *   create: {
+     *     // ... data to create a SenderProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SenderProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SenderProfileUpsertArgs>(args: SelectSubset<T, SenderProfileUpsertArgs<ExtArgs>>): Prisma__SenderProfileClient<$Result.GetResult<Prisma.$SenderProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SenderProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SenderProfileCountArgs} args - Arguments to filter SenderProfiles to count.
+     * @example
+     * // Count the number of SenderProfiles
+     * const count = await prisma.senderProfile.count({
+     *   where: {
+     *     // ... the filter for the SenderProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends SenderProfileCountArgs>(
+      args?: Subset<T, SenderProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SenderProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SenderProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SenderProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SenderProfileAggregateArgs>(args: Subset<T, SenderProfileAggregateArgs>): Prisma.PrismaPromise<GetSenderProfileAggregateType<T>>
+
+    /**
+     * Group by SenderProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SenderProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SenderProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SenderProfileGroupByArgs['orderBy'] }
+        : { orderBy?: SenderProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SenderProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSenderProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SenderProfile model
+   */
+  readonly fields: SenderProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SenderProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SenderProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SenderProfile model
+   */
+  interface SenderProfileFieldRefs {
+    readonly id: FieldRef<"SenderProfile", 'Int'>
+    readonly name: FieldRef<"SenderProfile", 'String'>
+    readonly company: FieldRef<"SenderProfile", 'String'>
+    readonly phone: FieldRef<"SenderProfile", 'String'>
+    readonly email: FieldRef<"SenderProfile", 'String'>
+    readonly address: FieldRef<"SenderProfile", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SenderProfile findUnique
+   */
+  export type SenderProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * Filter, which SenderProfile to fetch.
+     */
+    where: SenderProfileWhereUniqueInput
+  }
+
+  /**
+   * SenderProfile findUniqueOrThrow
+   */
+  export type SenderProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * Filter, which SenderProfile to fetch.
+     */
+    where: SenderProfileWhereUniqueInput
+  }
+
+  /**
+   * SenderProfile findFirst
+   */
+  export type SenderProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * Filter, which SenderProfile to fetch.
+     */
+    where?: SenderProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SenderProfiles to fetch.
+     */
+    orderBy?: SenderProfileOrderByWithRelationInput | SenderProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SenderProfiles.
+     */
+    cursor?: SenderProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SenderProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SenderProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SenderProfiles.
+     */
+    distinct?: SenderProfileScalarFieldEnum | SenderProfileScalarFieldEnum[]
+  }
+
+  /**
+   * SenderProfile findFirstOrThrow
+   */
+  export type SenderProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * Filter, which SenderProfile to fetch.
+     */
+    where?: SenderProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SenderProfiles to fetch.
+     */
+    orderBy?: SenderProfileOrderByWithRelationInput | SenderProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SenderProfiles.
+     */
+    cursor?: SenderProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SenderProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SenderProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SenderProfiles.
+     */
+    distinct?: SenderProfileScalarFieldEnum | SenderProfileScalarFieldEnum[]
+  }
+
+  /**
+   * SenderProfile findMany
+   */
+  export type SenderProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * Filter, which SenderProfiles to fetch.
+     */
+    where?: SenderProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SenderProfiles to fetch.
+     */
+    orderBy?: SenderProfileOrderByWithRelationInput | SenderProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SenderProfiles.
+     */
+    cursor?: SenderProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SenderProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SenderProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SenderProfiles.
+     */
+    distinct?: SenderProfileScalarFieldEnum | SenderProfileScalarFieldEnum[]
+  }
+
+  /**
+   * SenderProfile create
+   */
+  export type SenderProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SenderProfile.
+     */
+    data?: XOR<SenderProfileCreateInput, SenderProfileUncheckedCreateInput>
+  }
+
+  /**
+   * SenderProfile createMany
+   */
+  export type SenderProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SenderProfiles.
+     */
+    data: SenderProfileCreateManyInput | SenderProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SenderProfile createManyAndReturn
+   */
+  export type SenderProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many SenderProfiles.
+     */
+    data: SenderProfileCreateManyInput | SenderProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SenderProfile update
+   */
+  export type SenderProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SenderProfile.
+     */
+    data: XOR<SenderProfileUpdateInput, SenderProfileUncheckedUpdateInput>
+    /**
+     * Choose, which SenderProfile to update.
+     */
+    where: SenderProfileWhereUniqueInput
+  }
+
+  /**
+   * SenderProfile updateMany
+   */
+  export type SenderProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SenderProfiles.
+     */
+    data: XOR<SenderProfileUpdateManyMutationInput, SenderProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which SenderProfiles to update
+     */
+    where?: SenderProfileWhereInput
+    /**
+     * Limit how many SenderProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SenderProfile updateManyAndReturn
+   */
+  export type SenderProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update SenderProfiles.
+     */
+    data: XOR<SenderProfileUpdateManyMutationInput, SenderProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which SenderProfiles to update
+     */
+    where?: SenderProfileWhereInput
+    /**
+     * Limit how many SenderProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SenderProfile upsert
+   */
+  export type SenderProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SenderProfile to update in case it exists.
+     */
+    where: SenderProfileWhereUniqueInput
+    /**
+     * In case the SenderProfile found by the `where` argument doesn't exist, create a new SenderProfile with this data.
+     */
+    create: XOR<SenderProfileCreateInput, SenderProfileUncheckedCreateInput>
+    /**
+     * In case the SenderProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SenderProfileUpdateInput, SenderProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * SenderProfile delete
+   */
+  export type SenderProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+    /**
+     * Filter which SenderProfile to delete.
+     */
+    where: SenderProfileWhereUniqueInput
+  }
+
+  /**
+   * SenderProfile deleteMany
+   */
+  export type SenderProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SenderProfiles to delete
+     */
+    where?: SenderProfileWhereInput
+    /**
+     * Limit how many SenderProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SenderProfile without action
+   */
+  export type SenderProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SenderProfile
+     */
+    select?: SenderProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SenderProfile
+     */
+    omit?: SenderProfileOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model Client
    */
 
@@ -1226,6 +2364,7 @@ export namespace Prisma {
     company: string | null
     phone: string | null
     email: string | null
+    address: string | null
     createdAt: Date | null
   }
 
@@ -1235,6 +2374,7 @@ export namespace Prisma {
     company: string | null
     phone: string | null
     email: string | null
+    address: string | null
     createdAt: Date | null
   }
 
@@ -1244,6 +2384,7 @@ export namespace Prisma {
     company: number
     phone: number
     email: number
+    address: number
     createdAt: number
     _all: number
   }
@@ -1263,6 +2404,7 @@ export namespace Prisma {
     company?: true
     phone?: true
     email?: true
+    address?: true
     createdAt?: true
   }
 
@@ -1272,6 +2414,7 @@ export namespace Prisma {
     company?: true
     phone?: true
     email?: true
+    address?: true
     createdAt?: true
   }
 
@@ -1281,6 +2424,7 @@ export namespace Prisma {
     company?: true
     phone?: true
     email?: true
+    address?: true
     createdAt?: true
     _all?: true
   }
@@ -1377,6 +2521,7 @@ export namespace Prisma {
     company: string | null
     phone: string | null
     email: string | null
+    address: string | null
     createdAt: Date
     _count: ClientCountAggregateOutputType | null
     _avg: ClientAvgAggregateOutputType | null
@@ -1405,6 +2550,7 @@ export namespace Prisma {
     company?: boolean
     phone?: boolean
     email?: boolean
+    address?: boolean
     createdAt?: boolean
     quotes?: boolean | Client$quotesArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
@@ -1416,6 +2562,7 @@ export namespace Prisma {
     company?: boolean
     phone?: boolean
     email?: boolean
+    address?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["client"]>
 
@@ -1425,6 +2572,7 @@ export namespace Prisma {
     company?: boolean
     phone?: boolean
     email?: boolean
+    address?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["client"]>
 
@@ -1434,10 +2582,11 @@ export namespace Prisma {
     company?: boolean
     phone?: boolean
     email?: boolean
+    address?: boolean
     createdAt?: boolean
   }
 
-  export type ClientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "company" | "phone" | "email" | "createdAt", ExtArgs["result"]["client"]>
+  export type ClientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "company" | "phone" | "email" | "address" | "createdAt", ExtArgs["result"]["client"]>
   export type ClientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quotes?: boolean | Client$quotesArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
@@ -1456,6 +2605,7 @@ export namespace Prisma {
       company: string | null
       phone: string | null
       email: string | null
+      address: string | null
       createdAt: Date
     }, ExtArgs["result"]["client"]>
     composites: {}
@@ -1886,6 +3036,7 @@ export namespace Prisma {
     readonly company: FieldRef<"Client", 'String'>
     readonly phone: FieldRef<"Client", 'String'>
     readonly email: FieldRef<"Client", 'String'>
+    readonly address: FieldRef<"Client", 'String'>
     readonly createdAt: FieldRef<"Client", 'DateTime'>
   }
     
@@ -2337,25 +3488,29 @@ export namespace Prisma {
   export type QuoteAvgAggregateOutputType = {
     id: number | null
     clientId: number | null
+    advance: number | null
   }
 
   export type QuoteSumAggregateOutputType = {
     id: number | null
     clientId: number | null
+    advance: number | null
   }
 
   export type QuoteMinAggregateOutputType = {
     id: number | null
     folio: string | null
     clientId: number | null
-    maqType: string | null
+    maqBrand: string | null
     maqModel: string | null
+    maqType: string | null
     maqSerial: string | null
     maqHours: string | null
-    diagnosis: string | null
+    maqCondition: string | null
     delivery: string | null
     validity: string | null
     notes: string | null
+    advance: number | null
     status: string | null
     createdAt: Date | null
   }
@@ -2364,14 +3519,16 @@ export namespace Prisma {
     id: number | null
     folio: string | null
     clientId: number | null
-    maqType: string | null
+    maqBrand: string | null
     maqModel: string | null
+    maqType: string | null
     maqSerial: string | null
     maqHours: string | null
-    diagnosis: string | null
+    maqCondition: string | null
     delivery: string | null
     validity: string | null
     notes: string | null
+    advance: number | null
     status: string | null
     createdAt: Date | null
   }
@@ -2380,14 +3537,16 @@ export namespace Prisma {
     id: number
     folio: number
     clientId: number
-    maqType: number
+    maqBrand: number
     maqModel: number
+    maqType: number
     maqSerial: number
     maqHours: number
-    diagnosis: number
+    maqCondition: number
     delivery: number
     validity: number
     notes: number
+    advance: number
     status: number
     createdAt: number
     _all: number
@@ -2397,25 +3556,29 @@ export namespace Prisma {
   export type QuoteAvgAggregateInputType = {
     id?: true
     clientId?: true
+    advance?: true
   }
 
   export type QuoteSumAggregateInputType = {
     id?: true
     clientId?: true
+    advance?: true
   }
 
   export type QuoteMinAggregateInputType = {
     id?: true
     folio?: true
     clientId?: true
-    maqType?: true
+    maqBrand?: true
     maqModel?: true
+    maqType?: true
     maqSerial?: true
     maqHours?: true
-    diagnosis?: true
+    maqCondition?: true
     delivery?: true
     validity?: true
     notes?: true
+    advance?: true
     status?: true
     createdAt?: true
   }
@@ -2424,14 +3587,16 @@ export namespace Prisma {
     id?: true
     folio?: true
     clientId?: true
-    maqType?: true
+    maqBrand?: true
     maqModel?: true
+    maqType?: true
     maqSerial?: true
     maqHours?: true
-    diagnosis?: true
+    maqCondition?: true
     delivery?: true
     validity?: true
     notes?: true
+    advance?: true
     status?: true
     createdAt?: true
   }
@@ -2440,14 +3605,16 @@ export namespace Prisma {
     id?: true
     folio?: true
     clientId?: true
-    maqType?: true
+    maqBrand?: true
     maqModel?: true
+    maqType?: true
     maqSerial?: true
     maqHours?: true
-    diagnosis?: true
+    maqCondition?: true
     delivery?: true
     validity?: true
     notes?: true
+    advance?: true
     status?: true
     createdAt?: true
     _all?: true
@@ -2543,14 +3710,16 @@ export namespace Prisma {
     id: number
     folio: string
     clientId: number
-    maqType: string | null
+    maqBrand: string | null
     maqModel: string | null
+    maqType: string | null
     maqSerial: string | null
     maqHours: string | null
-    diagnosis: string | null
+    maqCondition: string | null
     delivery: string | null
     validity: string | null
     notes: string | null
+    advance: number | null
     status: string
     createdAt: Date
     _count: QuoteCountAggregateOutputType | null
@@ -2578,14 +3747,16 @@ export namespace Prisma {
     id?: boolean
     folio?: boolean
     clientId?: boolean
-    maqType?: boolean
+    maqBrand?: boolean
     maqModel?: boolean
+    maqType?: boolean
     maqSerial?: boolean
     maqHours?: boolean
-    diagnosis?: boolean
+    maqCondition?: boolean
     delivery?: boolean
     validity?: boolean
     notes?: boolean
+    advance?: boolean
     status?: boolean
     createdAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
@@ -2597,14 +3768,16 @@ export namespace Prisma {
     id?: boolean
     folio?: boolean
     clientId?: boolean
-    maqType?: boolean
+    maqBrand?: boolean
     maqModel?: boolean
+    maqType?: boolean
     maqSerial?: boolean
     maqHours?: boolean
-    diagnosis?: boolean
+    maqCondition?: boolean
     delivery?: boolean
     validity?: boolean
     notes?: boolean
+    advance?: boolean
     status?: boolean
     createdAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
@@ -2614,14 +3787,16 @@ export namespace Prisma {
     id?: boolean
     folio?: boolean
     clientId?: boolean
-    maqType?: boolean
+    maqBrand?: boolean
     maqModel?: boolean
+    maqType?: boolean
     maqSerial?: boolean
     maqHours?: boolean
-    diagnosis?: boolean
+    maqCondition?: boolean
     delivery?: boolean
     validity?: boolean
     notes?: boolean
+    advance?: boolean
     status?: boolean
     createdAt?: boolean
     client?: boolean | ClientDefaultArgs<ExtArgs>
@@ -2631,19 +3806,21 @@ export namespace Prisma {
     id?: boolean
     folio?: boolean
     clientId?: boolean
-    maqType?: boolean
+    maqBrand?: boolean
     maqModel?: boolean
+    maqType?: boolean
     maqSerial?: boolean
     maqHours?: boolean
-    diagnosis?: boolean
+    maqCondition?: boolean
     delivery?: boolean
     validity?: boolean
     notes?: boolean
+    advance?: boolean
     status?: boolean
     createdAt?: boolean
   }
 
-  export type QuoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "folio" | "clientId" | "maqType" | "maqModel" | "maqSerial" | "maqHours" | "diagnosis" | "delivery" | "validity" | "notes" | "status" | "createdAt", ExtArgs["result"]["quote"]>
+  export type QuoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "folio" | "clientId" | "maqBrand" | "maqModel" | "maqType" | "maqSerial" | "maqHours" | "maqCondition" | "delivery" | "validity" | "notes" | "advance" | "status" | "createdAt", ExtArgs["result"]["quote"]>
   export type QuoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | ClientDefaultArgs<ExtArgs>
     items?: boolean | Quote$itemsArgs<ExtArgs>
@@ -2666,14 +3843,16 @@ export namespace Prisma {
       id: number
       folio: string
       clientId: number
-      maqType: string | null
+      maqBrand: string | null
       maqModel: string | null
+      maqType: string | null
       maqSerial: string | null
       maqHours: string | null
-      diagnosis: string | null
+      maqCondition: string | null
       delivery: string | null
       validity: string | null
       notes: string | null
+      advance: number | null
       status: string
       createdAt: Date
     }, ExtArgs["result"]["quote"]>
@@ -3104,14 +4283,16 @@ export namespace Prisma {
     readonly id: FieldRef<"Quote", 'Int'>
     readonly folio: FieldRef<"Quote", 'String'>
     readonly clientId: FieldRef<"Quote", 'Int'>
-    readonly maqType: FieldRef<"Quote", 'String'>
+    readonly maqBrand: FieldRef<"Quote", 'String'>
     readonly maqModel: FieldRef<"Quote", 'String'>
+    readonly maqType: FieldRef<"Quote", 'String'>
     readonly maqSerial: FieldRef<"Quote", 'String'>
     readonly maqHours: FieldRef<"Quote", 'String'>
-    readonly diagnosis: FieldRef<"Quote", 'String'>
+    readonly maqCondition: FieldRef<"Quote", 'String'>
     readonly delivery: FieldRef<"Quote", 'String'>
     readonly validity: FieldRef<"Quote", 'String'>
     readonly notes: FieldRef<"Quote", 'String'>
+    readonly advance: FieldRef<"Quote", 'Float'>
     readonly status: FieldRef<"Quote", 'String'>
     readonly createdAt: FieldRef<"Quote", 'DateTime'>
   }
@@ -3586,8 +4767,8 @@ export namespace Prisma {
   export type QuoteItemMinAggregateOutputType = {
     id: number | null
     quoteId: number | null
+    section: string | null
     desc: string | null
-    type: string | null
     qty: number | null
     price: number | null
   }
@@ -3595,8 +4776,8 @@ export namespace Prisma {
   export type QuoteItemMaxAggregateOutputType = {
     id: number | null
     quoteId: number | null
+    section: string | null
     desc: string | null
-    type: string | null
     qty: number | null
     price: number | null
   }
@@ -3604,8 +4785,8 @@ export namespace Prisma {
   export type QuoteItemCountAggregateOutputType = {
     id: number
     quoteId: number
+    section: number
     desc: number
-    type: number
     qty: number
     price: number
     _all: number
@@ -3629,8 +4810,8 @@ export namespace Prisma {
   export type QuoteItemMinAggregateInputType = {
     id?: true
     quoteId?: true
+    section?: true
     desc?: true
-    type?: true
     qty?: true
     price?: true
   }
@@ -3638,8 +4819,8 @@ export namespace Prisma {
   export type QuoteItemMaxAggregateInputType = {
     id?: true
     quoteId?: true
+    section?: true
     desc?: true
-    type?: true
     qty?: true
     price?: true
   }
@@ -3647,8 +4828,8 @@ export namespace Prisma {
   export type QuoteItemCountAggregateInputType = {
     id?: true
     quoteId?: true
+    section?: true
     desc?: true
-    type?: true
     qty?: true
     price?: true
     _all?: true
@@ -3743,8 +4924,8 @@ export namespace Prisma {
   export type QuoteItemGroupByOutputType = {
     id: number
     quoteId: number
+    section: string
     desc: string
-    type: string
     qty: number
     price: number
     _count: QuoteItemCountAggregateOutputType | null
@@ -3771,8 +4952,8 @@ export namespace Prisma {
   export type QuoteItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     quoteId?: boolean
+    section?: boolean
     desc?: boolean
-    type?: boolean
     qty?: boolean
     price?: boolean
     quote?: boolean | QuoteDefaultArgs<ExtArgs>
@@ -3781,8 +4962,8 @@ export namespace Prisma {
   export type QuoteItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     quoteId?: boolean
+    section?: boolean
     desc?: boolean
-    type?: boolean
     qty?: boolean
     price?: boolean
     quote?: boolean | QuoteDefaultArgs<ExtArgs>
@@ -3791,8 +4972,8 @@ export namespace Prisma {
   export type QuoteItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     quoteId?: boolean
+    section?: boolean
     desc?: boolean
-    type?: boolean
     qty?: boolean
     price?: boolean
     quote?: boolean | QuoteDefaultArgs<ExtArgs>
@@ -3801,13 +4982,13 @@ export namespace Prisma {
   export type QuoteItemSelectScalar = {
     id?: boolean
     quoteId?: boolean
+    section?: boolean
     desc?: boolean
-    type?: boolean
     qty?: boolean
     price?: boolean
   }
 
-  export type QuoteItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quoteId" | "desc" | "type" | "qty" | "price", ExtArgs["result"]["quoteItem"]>
+  export type QuoteItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quoteId" | "section" | "desc" | "qty" | "price", ExtArgs["result"]["quoteItem"]>
   export type QuoteItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quote?: boolean | QuoteDefaultArgs<ExtArgs>
   }
@@ -3826,8 +5007,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       quoteId: number
+      section: string
       desc: string
-      type: string
       qty: number
       price: number
     }, ExtArgs["result"]["quoteItem"]>
@@ -4256,8 +5437,8 @@ export namespace Prisma {
   interface QuoteItemFieldRefs {
     readonly id: FieldRef<"QuoteItem", 'Int'>
     readonly quoteId: FieldRef<"QuoteItem", 'Int'>
+    readonly section: FieldRef<"QuoteItem", 'String'>
     readonly desc: FieldRef<"QuoteItem", 'String'>
-    readonly type: FieldRef<"QuoteItem", 'String'>
     readonly qty: FieldRef<"QuoteItem", 'Float'>
     readonly price: FieldRef<"QuoteItem", 'Float'>
   }
@@ -5731,12 +6912,25 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const SenderProfileScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    company: 'company',
+    phone: 'phone',
+    email: 'email',
+    address: 'address'
+  };
+
+  export type SenderProfileScalarFieldEnum = (typeof SenderProfileScalarFieldEnum)[keyof typeof SenderProfileScalarFieldEnum]
+
+
   export const ClientScalarFieldEnum: {
     id: 'id',
     name: 'name',
     company: 'company',
     phone: 'phone',
     email: 'email',
+    address: 'address',
     createdAt: 'createdAt'
   };
 
@@ -5747,14 +6941,16 @@ export namespace Prisma {
     id: 'id',
     folio: 'folio',
     clientId: 'clientId',
-    maqType: 'maqType',
+    maqBrand: 'maqBrand',
     maqModel: 'maqModel',
+    maqType: 'maqType',
     maqSerial: 'maqSerial',
     maqHours: 'maqHours',
-    diagnosis: 'diagnosis',
+    maqCondition: 'maqCondition',
     delivery: 'delivery',
     validity: 'validity',
     notes: 'notes',
+    advance: 'advance',
     status: 'status',
     createdAt: 'createdAt'
   };
@@ -5765,8 +6961,8 @@ export namespace Prisma {
   export const QuoteItemScalarFieldEnum: {
     id: 'id',
     quoteId: 'quoteId',
+    section: 'section',
     desc: 'desc',
-    type: 'type',
     qty: 'qty',
     price: 'price'
   };
@@ -5873,6 +7069,65 @@ export namespace Prisma {
    */
 
 
+  export type SenderProfileWhereInput = {
+    AND?: SenderProfileWhereInput | SenderProfileWhereInput[]
+    OR?: SenderProfileWhereInput[]
+    NOT?: SenderProfileWhereInput | SenderProfileWhereInput[]
+    id?: IntFilter<"SenderProfile"> | number
+    name?: StringFilter<"SenderProfile"> | string
+    company?: StringFilter<"SenderProfile"> | string
+    phone?: StringFilter<"SenderProfile"> | string
+    email?: StringFilter<"SenderProfile"> | string
+    address?: StringFilter<"SenderProfile"> | string
+  }
+
+  export type SenderProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    company?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+  }
+
+  export type SenderProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SenderProfileWhereInput | SenderProfileWhereInput[]
+    OR?: SenderProfileWhereInput[]
+    NOT?: SenderProfileWhereInput | SenderProfileWhereInput[]
+    name?: StringFilter<"SenderProfile"> | string
+    company?: StringFilter<"SenderProfile"> | string
+    phone?: StringFilter<"SenderProfile"> | string
+    email?: StringFilter<"SenderProfile"> | string
+    address?: StringFilter<"SenderProfile"> | string
+  }, "id">
+
+  export type SenderProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    company?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+    _count?: SenderProfileCountOrderByAggregateInput
+    _avg?: SenderProfileAvgOrderByAggregateInput
+    _max?: SenderProfileMaxOrderByAggregateInput
+    _min?: SenderProfileMinOrderByAggregateInput
+    _sum?: SenderProfileSumOrderByAggregateInput
+  }
+
+  export type SenderProfileScalarWhereWithAggregatesInput = {
+    AND?: SenderProfileScalarWhereWithAggregatesInput | SenderProfileScalarWhereWithAggregatesInput[]
+    OR?: SenderProfileScalarWhereWithAggregatesInput[]
+    NOT?: SenderProfileScalarWhereWithAggregatesInput | SenderProfileScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"SenderProfile"> | number
+    name?: StringWithAggregatesFilter<"SenderProfile"> | string
+    company?: StringWithAggregatesFilter<"SenderProfile"> | string
+    phone?: StringWithAggregatesFilter<"SenderProfile"> | string
+    email?: StringWithAggregatesFilter<"SenderProfile"> | string
+    address?: StringWithAggregatesFilter<"SenderProfile"> | string
+  }
+
   export type ClientWhereInput = {
     AND?: ClientWhereInput | ClientWhereInput[]
     OR?: ClientWhereInput[]
@@ -5882,6 +7137,7 @@ export namespace Prisma {
     company?: StringNullableFilter<"Client"> | string | null
     phone?: StringNullableFilter<"Client"> | string | null
     email?: StringNullableFilter<"Client"> | string | null
+    address?: StringNullableFilter<"Client"> | string | null
     createdAt?: DateTimeFilter<"Client"> | Date | string
     quotes?: QuoteListRelationFilter
   }
@@ -5892,6 +7148,7 @@ export namespace Prisma {
     company?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     quotes?: QuoteOrderByRelationAggregateInput
   }
@@ -5905,6 +7162,7 @@ export namespace Prisma {
     company?: StringNullableFilter<"Client"> | string | null
     phone?: StringNullableFilter<"Client"> | string | null
     email?: StringNullableFilter<"Client"> | string | null
+    address?: StringNullableFilter<"Client"> | string | null
     createdAt?: DateTimeFilter<"Client"> | Date | string
     quotes?: QuoteListRelationFilter
   }, "id">
@@ -5915,6 +7173,7 @@ export namespace Prisma {
     company?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: ClientCountOrderByAggregateInput
     _avg?: ClientAvgOrderByAggregateInput
@@ -5932,6 +7191,7 @@ export namespace Prisma {
     company?: StringNullableWithAggregatesFilter<"Client"> | string | null
     phone?: StringNullableWithAggregatesFilter<"Client"> | string | null
     email?: StringNullableWithAggregatesFilter<"Client"> | string | null
+    address?: StringNullableWithAggregatesFilter<"Client"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Client"> | Date | string
   }
 
@@ -5942,14 +7202,16 @@ export namespace Prisma {
     id?: IntFilter<"Quote"> | number
     folio?: StringFilter<"Quote"> | string
     clientId?: IntFilter<"Quote"> | number
-    maqType?: StringNullableFilter<"Quote"> | string | null
+    maqBrand?: StringNullableFilter<"Quote"> | string | null
     maqModel?: StringNullableFilter<"Quote"> | string | null
+    maqType?: StringNullableFilter<"Quote"> | string | null
     maqSerial?: StringNullableFilter<"Quote"> | string | null
     maqHours?: StringNullableFilter<"Quote"> | string | null
-    diagnosis?: StringNullableFilter<"Quote"> | string | null
+    maqCondition?: StringNullableFilter<"Quote"> | string | null
     delivery?: StringNullableFilter<"Quote"> | string | null
     validity?: StringNullableFilter<"Quote"> | string | null
     notes?: StringNullableFilter<"Quote"> | string | null
+    advance?: FloatNullableFilter<"Quote"> | number | null
     status?: StringFilter<"Quote"> | string
     createdAt?: DateTimeFilter<"Quote"> | Date | string
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
@@ -5960,14 +7222,16 @@ export namespace Prisma {
     id?: SortOrder
     folio?: SortOrder
     clientId?: SortOrder
-    maqType?: SortOrderInput | SortOrder
+    maqBrand?: SortOrderInput | SortOrder
     maqModel?: SortOrderInput | SortOrder
+    maqType?: SortOrderInput | SortOrder
     maqSerial?: SortOrderInput | SortOrder
     maqHours?: SortOrderInput | SortOrder
-    diagnosis?: SortOrderInput | SortOrder
+    maqCondition?: SortOrderInput | SortOrder
     delivery?: SortOrderInput | SortOrder
     validity?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    advance?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     client?: ClientOrderByWithRelationInput
@@ -5981,14 +7245,16 @@ export namespace Prisma {
     OR?: QuoteWhereInput[]
     NOT?: QuoteWhereInput | QuoteWhereInput[]
     clientId?: IntFilter<"Quote"> | number
-    maqType?: StringNullableFilter<"Quote"> | string | null
+    maqBrand?: StringNullableFilter<"Quote"> | string | null
     maqModel?: StringNullableFilter<"Quote"> | string | null
+    maqType?: StringNullableFilter<"Quote"> | string | null
     maqSerial?: StringNullableFilter<"Quote"> | string | null
     maqHours?: StringNullableFilter<"Quote"> | string | null
-    diagnosis?: StringNullableFilter<"Quote"> | string | null
+    maqCondition?: StringNullableFilter<"Quote"> | string | null
     delivery?: StringNullableFilter<"Quote"> | string | null
     validity?: StringNullableFilter<"Quote"> | string | null
     notes?: StringNullableFilter<"Quote"> | string | null
+    advance?: FloatNullableFilter<"Quote"> | number | null
     status?: StringFilter<"Quote"> | string
     createdAt?: DateTimeFilter<"Quote"> | Date | string
     client?: XOR<ClientScalarRelationFilter, ClientWhereInput>
@@ -5999,14 +7265,16 @@ export namespace Prisma {
     id?: SortOrder
     folio?: SortOrder
     clientId?: SortOrder
-    maqType?: SortOrderInput | SortOrder
+    maqBrand?: SortOrderInput | SortOrder
     maqModel?: SortOrderInput | SortOrder
+    maqType?: SortOrderInput | SortOrder
     maqSerial?: SortOrderInput | SortOrder
     maqHours?: SortOrderInput | SortOrder
-    diagnosis?: SortOrderInput | SortOrder
+    maqCondition?: SortOrderInput | SortOrder
     delivery?: SortOrderInput | SortOrder
     validity?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    advance?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     _count?: QuoteCountOrderByAggregateInput
@@ -6023,14 +7291,16 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Quote"> | number
     folio?: StringWithAggregatesFilter<"Quote"> | string
     clientId?: IntWithAggregatesFilter<"Quote"> | number
-    maqType?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    maqBrand?: StringNullableWithAggregatesFilter<"Quote"> | string | null
     maqModel?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    maqType?: StringNullableWithAggregatesFilter<"Quote"> | string | null
     maqSerial?: StringNullableWithAggregatesFilter<"Quote"> | string | null
     maqHours?: StringNullableWithAggregatesFilter<"Quote"> | string | null
-    diagnosis?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    maqCondition?: StringNullableWithAggregatesFilter<"Quote"> | string | null
     delivery?: StringNullableWithAggregatesFilter<"Quote"> | string | null
     validity?: StringNullableWithAggregatesFilter<"Quote"> | string | null
     notes?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    advance?: FloatNullableWithAggregatesFilter<"Quote"> | number | null
     status?: StringWithAggregatesFilter<"Quote"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Quote"> | Date | string
   }
@@ -6041,8 +7311,8 @@ export namespace Prisma {
     NOT?: QuoteItemWhereInput | QuoteItemWhereInput[]
     id?: IntFilter<"QuoteItem"> | number
     quoteId?: IntFilter<"QuoteItem"> | number
+    section?: StringFilter<"QuoteItem"> | string
     desc?: StringFilter<"QuoteItem"> | string
-    type?: StringFilter<"QuoteItem"> | string
     qty?: FloatFilter<"QuoteItem"> | number
     price?: FloatFilter<"QuoteItem"> | number
     quote?: XOR<QuoteScalarRelationFilter, QuoteWhereInput>
@@ -6051,8 +7321,8 @@ export namespace Prisma {
   export type QuoteItemOrderByWithRelationInput = {
     id?: SortOrder
     quoteId?: SortOrder
+    section?: SortOrder
     desc?: SortOrder
-    type?: SortOrder
     qty?: SortOrder
     price?: SortOrder
     quote?: QuoteOrderByWithRelationInput
@@ -6064,8 +7334,8 @@ export namespace Prisma {
     OR?: QuoteItemWhereInput[]
     NOT?: QuoteItemWhereInput | QuoteItemWhereInput[]
     quoteId?: IntFilter<"QuoteItem"> | number
+    section?: StringFilter<"QuoteItem"> | string
     desc?: StringFilter<"QuoteItem"> | string
-    type?: StringFilter<"QuoteItem"> | string
     qty?: FloatFilter<"QuoteItem"> | number
     price?: FloatFilter<"QuoteItem"> | number
     quote?: XOR<QuoteScalarRelationFilter, QuoteWhereInput>
@@ -6074,8 +7344,8 @@ export namespace Prisma {
   export type QuoteItemOrderByWithAggregationInput = {
     id?: SortOrder
     quoteId?: SortOrder
+    section?: SortOrder
     desc?: SortOrder
-    type?: SortOrder
     qty?: SortOrder
     price?: SortOrder
     _count?: QuoteItemCountOrderByAggregateInput
@@ -6091,8 +7361,8 @@ export namespace Prisma {
     NOT?: QuoteItemScalarWhereWithAggregatesInput | QuoteItemScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"QuoteItem"> | number
     quoteId?: IntWithAggregatesFilter<"QuoteItem"> | number
+    section?: StringWithAggregatesFilter<"QuoteItem"> | string
     desc?: StringWithAggregatesFilter<"QuoteItem"> | string
-    type?: StringWithAggregatesFilter<"QuoteItem"> | string
     qty?: FloatWithAggregatesFilter<"QuoteItem"> | number
     price?: FloatWithAggregatesFilter<"QuoteItem"> | number
   }
@@ -6151,11 +7421,72 @@ export namespace Prisma {
     desc?: StringNullableWithAggregatesFilter<"CatalogItem"> | string | null
   }
 
+  export type SenderProfileCreateInput = {
+    name?: string
+    company?: string
+    phone?: string
+    email?: string
+    address?: string
+  }
+
+  export type SenderProfileUncheckedCreateInput = {
+    id?: number
+    name?: string
+    company?: string
+    phone?: string
+    email?: string
+    address?: string
+  }
+
+  export type SenderProfileUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SenderProfileUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SenderProfileCreateManyInput = {
+    id?: number
+    name?: string
+    company?: string
+    phone?: string
+    email?: string
+    address?: string
+  }
+
+  export type SenderProfileUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SenderProfileUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+  }
+
   export type ClientCreateInput = {
     name: string
     company?: string | null
     phone?: string | null
     email?: string | null
+    address?: string | null
     createdAt?: Date | string
     quotes?: QuoteCreateNestedManyWithoutClientInput
   }
@@ -6166,6 +7497,7 @@ export namespace Prisma {
     company?: string | null
     phone?: string | null
     email?: string | null
+    address?: string | null
     createdAt?: Date | string
     quotes?: QuoteUncheckedCreateNestedManyWithoutClientInput
   }
@@ -6175,6 +7507,7 @@ export namespace Prisma {
     company?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quotes?: QuoteUpdateManyWithoutClientNestedInput
   }
@@ -6185,6 +7518,7 @@ export namespace Prisma {
     company?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quotes?: QuoteUncheckedUpdateManyWithoutClientNestedInput
   }
@@ -6195,6 +7529,7 @@ export namespace Prisma {
     company?: string | null
     phone?: string | null
     email?: string | null
+    address?: string | null
     createdAt?: Date | string
   }
 
@@ -6203,6 +7538,7 @@ export namespace Prisma {
     company?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6212,19 +7548,22 @@ export namespace Prisma {
     company?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuoteCreateInput = {
     folio: string
-    maqType?: string | null
+    maqBrand?: string | null
     maqModel?: string | null
+    maqType?: string | null
     maqSerial?: string | null
     maqHours?: string | null
-    diagnosis?: string | null
+    maqCondition?: string | null
     delivery?: string | null
     validity?: string | null
     notes?: string | null
+    advance?: number | null
     status?: string
     createdAt?: Date | string
     client: ClientCreateNestedOneWithoutQuotesInput
@@ -6235,14 +7574,16 @@ export namespace Prisma {
     id?: number
     folio: string
     clientId: number
-    maqType?: string | null
+    maqBrand?: string | null
     maqModel?: string | null
+    maqType?: string | null
     maqSerial?: string | null
     maqHours?: string | null
-    diagnosis?: string | null
+    maqCondition?: string | null
     delivery?: string | null
     validity?: string | null
     notes?: string | null
+    advance?: number | null
     status?: string
     createdAt?: Date | string
     items?: QuoteItemUncheckedCreateNestedManyWithoutQuoteInput
@@ -6250,14 +7591,16 @@ export namespace Prisma {
 
   export type QuoteUpdateInput = {
     folio?: StringFieldUpdateOperationsInput | string
-    maqType?: NullableStringFieldUpdateOperationsInput | string | null
+    maqBrand?: NullableStringFieldUpdateOperationsInput | string | null
     maqModel?: NullableStringFieldUpdateOperationsInput | string | null
+    maqType?: NullableStringFieldUpdateOperationsInput | string | null
     maqSerial?: NullableStringFieldUpdateOperationsInput | string | null
     maqHours?: NullableStringFieldUpdateOperationsInput | string | null
-    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    maqCondition?: NullableStringFieldUpdateOperationsInput | string | null
     delivery?: NullableStringFieldUpdateOperationsInput | string | null
     validity?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    advance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: ClientUpdateOneRequiredWithoutQuotesNestedInput
@@ -6268,14 +7611,16 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     folio?: StringFieldUpdateOperationsInput | string
     clientId?: IntFieldUpdateOperationsInput | number
-    maqType?: NullableStringFieldUpdateOperationsInput | string | null
+    maqBrand?: NullableStringFieldUpdateOperationsInput | string | null
     maqModel?: NullableStringFieldUpdateOperationsInput | string | null
+    maqType?: NullableStringFieldUpdateOperationsInput | string | null
     maqSerial?: NullableStringFieldUpdateOperationsInput | string | null
     maqHours?: NullableStringFieldUpdateOperationsInput | string | null
-    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    maqCondition?: NullableStringFieldUpdateOperationsInput | string | null
     delivery?: NullableStringFieldUpdateOperationsInput | string | null
     validity?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    advance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: QuoteItemUncheckedUpdateManyWithoutQuoteNestedInput
@@ -6285,28 +7630,32 @@ export namespace Prisma {
     id?: number
     folio: string
     clientId: number
-    maqType?: string | null
+    maqBrand?: string | null
     maqModel?: string | null
+    maqType?: string | null
     maqSerial?: string | null
     maqHours?: string | null
-    diagnosis?: string | null
+    maqCondition?: string | null
     delivery?: string | null
     validity?: string | null
     notes?: string | null
+    advance?: number | null
     status?: string
     createdAt?: Date | string
   }
 
   export type QuoteUpdateManyMutationInput = {
     folio?: StringFieldUpdateOperationsInput | string
-    maqType?: NullableStringFieldUpdateOperationsInput | string | null
+    maqBrand?: NullableStringFieldUpdateOperationsInput | string | null
     maqModel?: NullableStringFieldUpdateOperationsInput | string | null
+    maqType?: NullableStringFieldUpdateOperationsInput | string | null
     maqSerial?: NullableStringFieldUpdateOperationsInput | string | null
     maqHours?: NullableStringFieldUpdateOperationsInput | string | null
-    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    maqCondition?: NullableStringFieldUpdateOperationsInput | string | null
     delivery?: NullableStringFieldUpdateOperationsInput | string | null
     validity?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    advance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6315,21 +7664,23 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     folio?: StringFieldUpdateOperationsInput | string
     clientId?: IntFieldUpdateOperationsInput | number
-    maqType?: NullableStringFieldUpdateOperationsInput | string | null
+    maqBrand?: NullableStringFieldUpdateOperationsInput | string | null
     maqModel?: NullableStringFieldUpdateOperationsInput | string | null
+    maqType?: NullableStringFieldUpdateOperationsInput | string | null
     maqSerial?: NullableStringFieldUpdateOperationsInput | string | null
     maqHours?: NullableStringFieldUpdateOperationsInput | string | null
-    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    maqCondition?: NullableStringFieldUpdateOperationsInput | string | null
     delivery?: NullableStringFieldUpdateOperationsInput | string | null
     validity?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    advance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuoteItemCreateInput = {
+    section: string
     desc: string
-    type: string
     qty: number
     price: number
     quote: QuoteCreateNestedOneWithoutItemsInput
@@ -6338,15 +7689,15 @@ export namespace Prisma {
   export type QuoteItemUncheckedCreateInput = {
     id?: number
     quoteId: number
+    section: string
     desc: string
-    type: string
     qty: number
     price: number
   }
 
   export type QuoteItemUpdateInput = {
+    section?: StringFieldUpdateOperationsInput | string
     desc?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     qty?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     quote?: QuoteUpdateOneRequiredWithoutItemsNestedInput
@@ -6355,8 +7706,8 @@ export namespace Prisma {
   export type QuoteItemUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     quoteId?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
     desc?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     qty?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }
@@ -6364,15 +7715,15 @@ export namespace Prisma {
   export type QuoteItemCreateManyInput = {
     id?: number
     quoteId: number
+    section: string
     desc: string
-    type: string
     qty: number
     price: number
   }
 
   export type QuoteItemUpdateManyMutationInput = {
+    section?: StringFieldUpdateOperationsInput | string
     desc?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     qty?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }
@@ -6380,8 +7731,8 @@ export namespace Prisma {
   export type QuoteItemUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     quoteId?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
     desc?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     qty?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }
@@ -6465,6 +7816,75 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type SenderProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    company?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+  }
+
+  export type SenderProfileAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type SenderProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    company?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+  }
+
+  export type SenderProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    company?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    address?: SortOrder
+  }
+
+  export type SenderProfileSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6512,6 +7932,7 @@ export namespace Prisma {
     company?: SortOrder
     phone?: SortOrder
     email?: SortOrder
+    address?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -6525,6 +7946,7 @@ export namespace Prisma {
     company?: SortOrder
     phone?: SortOrder
     email?: SortOrder
+    address?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -6534,45 +7956,12 @@ export namespace Prisma {
     company?: SortOrder
     phone?: SortOrder
     email?: SortOrder
+    address?: SortOrder
     createdAt?: SortOrder
   }
 
   export type ClientSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6607,6 +7996,17 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ClientScalarRelationFilter = {
     is?: ClientWhereInput
     isNot?: ClientWhereInput
@@ -6626,14 +8026,16 @@ export namespace Prisma {
     id?: SortOrder
     folio?: SortOrder
     clientId?: SortOrder
-    maqType?: SortOrder
+    maqBrand?: SortOrder
     maqModel?: SortOrder
+    maqType?: SortOrder
     maqSerial?: SortOrder
     maqHours?: SortOrder
-    diagnosis?: SortOrder
+    maqCondition?: SortOrder
     delivery?: SortOrder
     validity?: SortOrder
     notes?: SortOrder
+    advance?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -6641,20 +8043,23 @@ export namespace Prisma {
   export type QuoteAvgOrderByAggregateInput = {
     id?: SortOrder
     clientId?: SortOrder
+    advance?: SortOrder
   }
 
   export type QuoteMaxOrderByAggregateInput = {
     id?: SortOrder
     folio?: SortOrder
     clientId?: SortOrder
-    maqType?: SortOrder
+    maqBrand?: SortOrder
     maqModel?: SortOrder
+    maqType?: SortOrder
     maqSerial?: SortOrder
     maqHours?: SortOrder
-    diagnosis?: SortOrder
+    maqCondition?: SortOrder
     delivery?: SortOrder
     validity?: SortOrder
     notes?: SortOrder
+    advance?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -6663,14 +8068,16 @@ export namespace Prisma {
     id?: SortOrder
     folio?: SortOrder
     clientId?: SortOrder
-    maqType?: SortOrder
+    maqBrand?: SortOrder
     maqModel?: SortOrder
+    maqType?: SortOrder
     maqSerial?: SortOrder
     maqHours?: SortOrder
-    diagnosis?: SortOrder
+    maqCondition?: SortOrder
     delivery?: SortOrder
     validity?: SortOrder
     notes?: SortOrder
+    advance?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -6678,6 +8085,23 @@ export namespace Prisma {
   export type QuoteSumOrderByAggregateInput = {
     id?: SortOrder
     clientId?: SortOrder
+    advance?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -6699,8 +8123,8 @@ export namespace Prisma {
   export type QuoteItemCountOrderByAggregateInput = {
     id?: SortOrder
     quoteId?: SortOrder
+    section?: SortOrder
     desc?: SortOrder
-    type?: SortOrder
     qty?: SortOrder
     price?: SortOrder
   }
@@ -6715,8 +8139,8 @@ export namespace Prisma {
   export type QuoteItemMaxOrderByAggregateInput = {
     id?: SortOrder
     quoteId?: SortOrder
+    section?: SortOrder
     desc?: SortOrder
-    type?: SortOrder
     qty?: SortOrder
     price?: SortOrder
   }
@@ -6724,8 +8148,8 @@ export namespace Prisma {
   export type QuoteItemMinOrderByAggregateInput = {
     id?: SortOrder
     quoteId?: SortOrder
+    section?: SortOrder
     desc?: SortOrder
-    type?: SortOrder
     qty?: SortOrder
     price?: SortOrder
   }
@@ -6787,6 +8211,18 @@ export namespace Prisma {
     price?: SortOrder
   }
 
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type QuoteCreateNestedManyWithoutClientInput = {
     create?: XOR<QuoteCreateWithoutClientInput, QuoteUncheckedCreateWithoutClientInput> | QuoteCreateWithoutClientInput[] | QuoteUncheckedCreateWithoutClientInput[]
     connectOrCreate?: QuoteCreateOrConnectWithoutClientInput | QuoteCreateOrConnectWithoutClientInput[]
@@ -6799,10 +8235,6 @@ export namespace Prisma {
     connectOrCreate?: QuoteCreateOrConnectWithoutClientInput | QuoteCreateOrConnectWithoutClientInput[]
     createMany?: QuoteCreateManyClientInputEnvelope
     connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
-  }
-
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -6825,14 +8257,6 @@ export namespace Prisma {
     update?: QuoteUpdateWithWhereUniqueWithoutClientInput | QuoteUpdateWithWhereUniqueWithoutClientInput[]
     updateMany?: QuoteUpdateManyWithWhereWithoutClientInput | QuoteUpdateManyWithWhereWithoutClientInput[]
     deleteMany?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type QuoteUncheckedUpdateManyWithoutClientNestedInput = {
@@ -6867,6 +8291,14 @@ export namespace Prisma {
     connectOrCreate?: QuoteItemCreateOrConnectWithoutQuoteInput | QuoteItemCreateOrConnectWithoutQuoteInput[]
     createMany?: QuoteItemCreateManyQuoteInputEnvelope
     connect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type ClientUpdateOneRequiredWithoutQuotesNestedInput = {
@@ -6952,31 +8384,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -7021,6 +8428,31 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -7063,6 +8495,33 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -7081,14 +8540,16 @@ export namespace Prisma {
 
   export type QuoteCreateWithoutClientInput = {
     folio: string
-    maqType?: string | null
+    maqBrand?: string | null
     maqModel?: string | null
+    maqType?: string | null
     maqSerial?: string | null
     maqHours?: string | null
-    diagnosis?: string | null
+    maqCondition?: string | null
     delivery?: string | null
     validity?: string | null
     notes?: string | null
+    advance?: number | null
     status?: string
     createdAt?: Date | string
     items?: QuoteItemCreateNestedManyWithoutQuoteInput
@@ -7097,14 +8558,16 @@ export namespace Prisma {
   export type QuoteUncheckedCreateWithoutClientInput = {
     id?: number
     folio: string
-    maqType?: string | null
+    maqBrand?: string | null
     maqModel?: string | null
+    maqType?: string | null
     maqSerial?: string | null
     maqHours?: string | null
-    diagnosis?: string | null
+    maqCondition?: string | null
     delivery?: string | null
     validity?: string | null
     notes?: string | null
+    advance?: number | null
     status?: string
     createdAt?: Date | string
     items?: QuoteItemUncheckedCreateNestedManyWithoutQuoteInput
@@ -7143,14 +8606,16 @@ export namespace Prisma {
     id?: IntFilter<"Quote"> | number
     folio?: StringFilter<"Quote"> | string
     clientId?: IntFilter<"Quote"> | number
-    maqType?: StringNullableFilter<"Quote"> | string | null
+    maqBrand?: StringNullableFilter<"Quote"> | string | null
     maqModel?: StringNullableFilter<"Quote"> | string | null
+    maqType?: StringNullableFilter<"Quote"> | string | null
     maqSerial?: StringNullableFilter<"Quote"> | string | null
     maqHours?: StringNullableFilter<"Quote"> | string | null
-    diagnosis?: StringNullableFilter<"Quote"> | string | null
+    maqCondition?: StringNullableFilter<"Quote"> | string | null
     delivery?: StringNullableFilter<"Quote"> | string | null
     validity?: StringNullableFilter<"Quote"> | string | null
     notes?: StringNullableFilter<"Quote"> | string | null
+    advance?: FloatNullableFilter<"Quote"> | number | null
     status?: StringFilter<"Quote"> | string
     createdAt?: DateTimeFilter<"Quote"> | Date | string
   }
@@ -7160,6 +8625,7 @@ export namespace Prisma {
     company?: string | null
     phone?: string | null
     email?: string | null
+    address?: string | null
     createdAt?: Date | string
   }
 
@@ -7169,6 +8635,7 @@ export namespace Prisma {
     company?: string | null
     phone?: string | null
     email?: string | null
+    address?: string | null
     createdAt?: Date | string
   }
 
@@ -7178,16 +8645,16 @@ export namespace Prisma {
   }
 
   export type QuoteItemCreateWithoutQuoteInput = {
+    section: string
     desc: string
-    type: string
     qty: number
     price: number
   }
 
   export type QuoteItemUncheckedCreateWithoutQuoteInput = {
     id?: number
+    section: string
     desc: string
-    type: string
     qty: number
     price: number
   }
@@ -7218,6 +8685,7 @@ export namespace Prisma {
     company?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7227,6 +8695,7 @@ export namespace Prisma {
     company?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7252,22 +8721,24 @@ export namespace Prisma {
     NOT?: QuoteItemScalarWhereInput | QuoteItemScalarWhereInput[]
     id?: IntFilter<"QuoteItem"> | number
     quoteId?: IntFilter<"QuoteItem"> | number
+    section?: StringFilter<"QuoteItem"> | string
     desc?: StringFilter<"QuoteItem"> | string
-    type?: StringFilter<"QuoteItem"> | string
     qty?: FloatFilter<"QuoteItem"> | number
     price?: FloatFilter<"QuoteItem"> | number
   }
 
   export type QuoteCreateWithoutItemsInput = {
     folio: string
-    maqType?: string | null
+    maqBrand?: string | null
     maqModel?: string | null
+    maqType?: string | null
     maqSerial?: string | null
     maqHours?: string | null
-    diagnosis?: string | null
+    maqCondition?: string | null
     delivery?: string | null
     validity?: string | null
     notes?: string | null
+    advance?: number | null
     status?: string
     createdAt?: Date | string
     client: ClientCreateNestedOneWithoutQuotesInput
@@ -7277,14 +8748,16 @@ export namespace Prisma {
     id?: number
     folio: string
     clientId: number
-    maqType?: string | null
+    maqBrand?: string | null
     maqModel?: string | null
+    maqType?: string | null
     maqSerial?: string | null
     maqHours?: string | null
-    diagnosis?: string | null
+    maqCondition?: string | null
     delivery?: string | null
     validity?: string | null
     notes?: string | null
+    advance?: number | null
     status?: string
     createdAt?: Date | string
   }
@@ -7307,14 +8780,16 @@ export namespace Prisma {
 
   export type QuoteUpdateWithoutItemsInput = {
     folio?: StringFieldUpdateOperationsInput | string
-    maqType?: NullableStringFieldUpdateOperationsInput | string | null
+    maqBrand?: NullableStringFieldUpdateOperationsInput | string | null
     maqModel?: NullableStringFieldUpdateOperationsInput | string | null
+    maqType?: NullableStringFieldUpdateOperationsInput | string | null
     maqSerial?: NullableStringFieldUpdateOperationsInput | string | null
     maqHours?: NullableStringFieldUpdateOperationsInput | string | null
-    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    maqCondition?: NullableStringFieldUpdateOperationsInput | string | null
     delivery?: NullableStringFieldUpdateOperationsInput | string | null
     validity?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    advance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: ClientUpdateOneRequiredWithoutQuotesNestedInput
@@ -7324,14 +8799,16 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     folio?: StringFieldUpdateOperationsInput | string
     clientId?: IntFieldUpdateOperationsInput | number
-    maqType?: NullableStringFieldUpdateOperationsInput | string | null
+    maqBrand?: NullableStringFieldUpdateOperationsInput | string | null
     maqModel?: NullableStringFieldUpdateOperationsInput | string | null
+    maqType?: NullableStringFieldUpdateOperationsInput | string | null
     maqSerial?: NullableStringFieldUpdateOperationsInput | string | null
     maqHours?: NullableStringFieldUpdateOperationsInput | string | null
-    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    maqCondition?: NullableStringFieldUpdateOperationsInput | string | null
     delivery?: NullableStringFieldUpdateOperationsInput | string | null
     validity?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    advance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7339,28 +8816,32 @@ export namespace Prisma {
   export type QuoteCreateManyClientInput = {
     id?: number
     folio: string
-    maqType?: string | null
+    maqBrand?: string | null
     maqModel?: string | null
+    maqType?: string | null
     maqSerial?: string | null
     maqHours?: string | null
-    diagnosis?: string | null
+    maqCondition?: string | null
     delivery?: string | null
     validity?: string | null
     notes?: string | null
+    advance?: number | null
     status?: string
     createdAt?: Date | string
   }
 
   export type QuoteUpdateWithoutClientInput = {
     folio?: StringFieldUpdateOperationsInput | string
-    maqType?: NullableStringFieldUpdateOperationsInput | string | null
+    maqBrand?: NullableStringFieldUpdateOperationsInput | string | null
     maqModel?: NullableStringFieldUpdateOperationsInput | string | null
+    maqType?: NullableStringFieldUpdateOperationsInput | string | null
     maqSerial?: NullableStringFieldUpdateOperationsInput | string | null
     maqHours?: NullableStringFieldUpdateOperationsInput | string | null
-    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    maqCondition?: NullableStringFieldUpdateOperationsInput | string | null
     delivery?: NullableStringFieldUpdateOperationsInput | string | null
     validity?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    advance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: QuoteItemUpdateManyWithoutQuoteNestedInput
@@ -7369,14 +8850,16 @@ export namespace Prisma {
   export type QuoteUncheckedUpdateWithoutClientInput = {
     id?: IntFieldUpdateOperationsInput | number
     folio?: StringFieldUpdateOperationsInput | string
-    maqType?: NullableStringFieldUpdateOperationsInput | string | null
+    maqBrand?: NullableStringFieldUpdateOperationsInput | string | null
     maqModel?: NullableStringFieldUpdateOperationsInput | string | null
+    maqType?: NullableStringFieldUpdateOperationsInput | string | null
     maqSerial?: NullableStringFieldUpdateOperationsInput | string | null
     maqHours?: NullableStringFieldUpdateOperationsInput | string | null
-    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    maqCondition?: NullableStringFieldUpdateOperationsInput | string | null
     delivery?: NullableStringFieldUpdateOperationsInput | string | null
     validity?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    advance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: QuoteItemUncheckedUpdateManyWithoutQuoteNestedInput
@@ -7385,45 +8868,47 @@ export namespace Prisma {
   export type QuoteUncheckedUpdateManyWithoutClientInput = {
     id?: IntFieldUpdateOperationsInput | number
     folio?: StringFieldUpdateOperationsInput | string
-    maqType?: NullableStringFieldUpdateOperationsInput | string | null
+    maqBrand?: NullableStringFieldUpdateOperationsInput | string | null
     maqModel?: NullableStringFieldUpdateOperationsInput | string | null
+    maqType?: NullableStringFieldUpdateOperationsInput | string | null
     maqSerial?: NullableStringFieldUpdateOperationsInput | string | null
     maqHours?: NullableStringFieldUpdateOperationsInput | string | null
-    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    maqCondition?: NullableStringFieldUpdateOperationsInput | string | null
     delivery?: NullableStringFieldUpdateOperationsInput | string | null
     validity?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    advance?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuoteItemCreateManyQuoteInput = {
     id?: number
+    section: string
     desc: string
-    type: string
     qty: number
     price: number
   }
 
   export type QuoteItemUpdateWithoutQuoteInput = {
+    section?: StringFieldUpdateOperationsInput | string
     desc?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     qty?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }
 
   export type QuoteItemUncheckedUpdateWithoutQuoteInput = {
     id?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
     desc?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     qty?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }
 
   export type QuoteItemUncheckedUpdateManyWithoutQuoteInput = {
     id?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
     desc?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     qty?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }

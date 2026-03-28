@@ -5,6 +5,14 @@ generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
+model SenderProfile {
+  id        Int     @id @default(autoincrement())
+  name      String  @default("")
+  company   String  @default("")
+  phone     String  @default("")
+  email     String  @default("")
+  address   String  @default("")
+}
 
 model Client {
   id        Int      @id @default(autoincrement())
@@ -12,6 +20,7 @@ model Client {
   company   String?
   phone     String?
   email     String?
+  address   String?
   createdAt DateTime @default(now())
   quotes    Quote[]
 }
@@ -21,14 +30,16 @@ model Quote {
   folio     String      @unique
   clientId  Int
   client    Client      @relation(fields: [clientId], references: [id])
-  maqType   String?
+  maqBrand  String?
   maqModel  String?
+  maqType   String?
   maqSerial String?
   maqHours  String?
-  diagnosis String?
+  maqCondition String?
   delivery  String?
   validity  String?
   notes     String?
+  advance   Float?
   status    String      @default("Borrador")
   items     QuoteItem[]
   createdAt DateTime    @default(now())
@@ -38,14 +49,14 @@ model QuoteItem {
   id      Int    @id @default(autoincrement())
   quoteId Int
   quote   Quote  @relation(fields: [quoteId], references: [id])
+  section String
   desc    String
-  type    String
   qty     Float
   price   Float
 }
 
 model CatalogItem {
-  id    Int    @id @default(autoincrement())
+  id    Int     @id @default(autoincrement())
   name  String
   type  String
   price Float

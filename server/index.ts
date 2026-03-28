@@ -10,6 +10,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Sender Profile
+app.get("/sender", async (req, res) => {
+  let sender = await prisma.senderProfile.findFirst();
+  if (!sender) sender = await prisma.senderProfile.create({ data: {} });
+  res.json(sender);
+});
+app.put("/sender", async (req, res) => {
+  let sender = await prisma.senderProfile.findFirst();
+  if (!sender) sender = await prisma.senderProfile.create({ data: {} });
+  const updated = await prisma.senderProfile.update({
+    where: { id: sender.id },
+    data: req.body,
+  });
+  res.json(updated);
+});
+
 // Clientes
 app.get("/clients", async (req, res) => {
   const clients = await prisma.client.findMany();
@@ -34,6 +50,7 @@ app.post("/catalog", async (req, res) => {
 app.get("/quotes", async (req, res) => {
   const quotes = await prisma.quote.findMany({
     include: { client: true, items: true },
+    orderBy: { createdAt: "desc" },
   });
   res.json(quotes);
 });
@@ -57,5 +74,12 @@ app.put("/quotes/:id", async (req, res) => {
   });
   res.json(quote);
 });
-
+//Borrar cotizaciones
+app.delete("/quotes/:id", async (req, res) => {
+  await prisma.quoteItem.deleteMany({
+    where: { quoteId: Number(req.params.id) },
+  });
+  await prisma.quote.delete({ where: { id: Number(req.params.id) } });
+  res.json({ ok: true });
+});
 app.listen(3000, () => console.log("Server corriendo en puerto 3000"));
