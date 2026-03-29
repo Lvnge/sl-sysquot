@@ -2,6 +2,24 @@ import axios from "axios";
 
 const api = axios.create({ baseURL: import.meta.env.VITE_API_URL });
 
+export const login = (username: string, password: string) =>
+  api.post("/login", { username, password });
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+api.interceptors.response.use(
+  (r) => r,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  },
+);
 export const getQuotes = () => api.get("/quotes");
 export const createQuote = (data: object) => api.post("/quotes", data);
 export const updateQuote = (id: number, data: object) =>

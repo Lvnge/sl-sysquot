@@ -1,6 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
       <aside className="w-56 bg-white border-r border-gray-100 flex flex-col shadow-sm">
@@ -39,8 +45,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <span className="text-base">📦</span> Catálogo
           </NavLink>
         </nav>
-        <div className="px-5 py-3 border-t border-gray-100">
+        <div className="px-5 py-3 border-t border-gray-100 flex justify-between items-center">
           <p className="text-xs text-gray-300">v1.0</p>
+          <button
+            onClick={logout}
+            className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            Salir
+          </button>
         </div>
       </aside>
       <main className="flex-1 overflow-auto bg-gray-50">{children}</main>

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import logo from "../assets/logo.png";
-
 import {
   createQuote,
   updateQuote,
+  getCatalog,
   getQuotes,
   getClients,
   createClient,
@@ -158,9 +158,16 @@ export default function NewQuote() {
   const [parts, setParts] = useState<Item[]>([]);
   const [advance, setAdvance] = useState<number>(0);
   const [folio, setFolio] = useState(() => "COT-" + Date.now());
+  const [catalogItems, setCatalogItems] = useState<
+    { id: number; name: string; type: string; price: number }[]
+  >([]);
+  const [showCatalogModal, setShowCatalogModal] = useState<
+    "servicio" | "refaccion" | null
+  >(null);
   useEffect(() => {
     getSender().then((r) => setSender(r.data));
     getClients().then((r) => setClients(r.data));
+    getCatalog().then((r) => setCatalogItems(r.data));
     if (id) {
       getQuotes().then((r) => {
         const q = r.data.find((q: { id: number }) => q.id === Number(id));
@@ -228,6 +235,21 @@ export default function NewQuote() {
     copy[i] = { ...copy[i], [field]: value };
     setParts(copy);
   };
+  const addFromCatalog = (catalogItem: {
+    name: string;
+    type: string;
+    price: number;
+  }) => {
+    const item = {
+      section: showCatalogModal!,
+      desc: catalogItem.name,
+      qty: 1,
+      price: catalogItem.price,
+    };
+    if (showCatalogModal === "servicio") setServices([...services, item]);
+    else setParts([...parts, item]);
+    setShowCatalogModal(null);
+  };
 
   const allItems = [...services, ...parts];
   const subtotal = allItems.reduce((a, i) => a + i.qty * i.price, 0);
@@ -273,7 +295,6 @@ export default function NewQuote() {
     }
     navigate("/");
   };
-
   return (
     <Layout>
       <div className="p-6 max-w-4xl flex flex-col gap-4 min-h-screen">
@@ -569,12 +590,20 @@ export default function NewQuote() {
               Sin servicios agregados
             </p>
           )}
-          <button
-            onClick={addService}
-            className="mt-3 text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
-          >
-            + Agregar servicio
-          </button>
+          <div className="flex gap-2 mt-3">
+            <button
+              onClick={addService}
+              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
+            >
+              + Agregar manualmente
+            </button>
+            <button
+              onClick={() => setShowCatalogModal("servicio")}
+              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
+            >
+              + Del catálogo
+            </button>
+          </div>
         </Section>
 
         {/* Refacciones */}
@@ -608,12 +637,20 @@ export default function NewQuote() {
               Sin refacciones agregadas
             </p>
           )}
-          <button
-            onClick={addPart}
-            className="mt-3 text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
-          >
-            + Agregar refacción
-          </button>
+          <div className="flex gap-2 mt-3">
+            <button
+              onClick={addPart}
+              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
+            >
+              + Agregar manualmente
+            </button>
+            <button
+              onClick={() => setShowCatalogModal("refaccion")}
+              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
+            >
+              + Del catálogo
+            </button>
+          </div>
         </Section>
 
         {/* Condiciones */}
@@ -751,6 +788,50 @@ export default function NewQuote() {
           </div>
         </Section>
       </div>
+      {showCatalogModal && (
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl border border-gray-200 p-5 w-full max-w-md shadow-lg">
+            <div className="flex justify-between items-center mb-4">
+              <p className="text-sm font-semibold text-gray-800">
+                Agregar{" "}
+                {showCatalogModal === "servicio" ? "servicio" : "refacción"} del
+                catálogo
+              </p>
+              <button
+                onClick={() => setShowCatalogModal(null)}
+                className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+              >
+                ×
+              </button>
+            </div>
+            <div className="flex flex-col gap-2 max-h-72 overflow-y-auto">
+              {catalogItems
+                .filter((c) => c.type === showCatalogModal)
+                .map((c) => (
+                  <button
+                    key={c.id}
+                    onClick={() => addFromCatalog(c)}
+                    className="flex justify-between items-center px-3 py-2.5 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <span className="text-sm text-gray-800">{c.name}</span>
+                    <span className="text-sm font-medium text-gray-600 ml-4 shrink-0">
+                      {c.price.toLocaleString("es-MX", {
+                        style: "currency",
+                        currency: "MXN",
+                      })}
+                    </span>
+                  </button>
+                ))}
+              {catalogItems.filter((c) => c.type === showCatalogModal)
+                .length === 0 && (
+                <p className="text-sm text-gray-400 text-center py-6">
+                  No hay items en el catálogo
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 }
