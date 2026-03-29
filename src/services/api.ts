@@ -13,3 +13,6 @@ export const createCatalogItem = (data: object) => api.post("/catalog", data);
 export const getSender = () => api.get("/sender");
 export const updateSender = (data: object) => api.put("/sender", data);
 export const deleteQuote = (id: number) => api.delete(`/quotes/${id}`);
+export const updateCatalogItem = (id: number, data: object) =>
+  api.put(`/catalog/${id}`, data);
+export const deleteCatalogItem = (id: number) => api.delete(`/catalog/${id}`);

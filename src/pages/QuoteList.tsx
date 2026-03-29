@@ -9,6 +9,7 @@ const statusStyle: Record<string, string> = {
   Pendiente: "bg-amber-100 text-amber-800",
   Enviada: "bg-blue-100 text-blue-800",
   Aprobada: "bg-green-100 text-green-700",
+  Rechazada: "bg-red-100 text-red-600",
 };
 interface Sender {
   name: string;

@@ -123,6 +123,7 @@ export const ItemRow = ({
 export default function NewQuote() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const [sender, setSender] = useState<Sender>({
     id: 0,
@@ -275,22 +276,20 @@ export default function NewQuote() {
 
   return (
     <Layout>
-      <div className="p-6 max-w-4xl flex flex-col gap-4">
+      <div className="p-6 max-w-4xl flex flex-col gap-4 min-h-screen">
         <div className="flex justify-between items-center">
-          <h2 className="text-base font-medium">
-            {id ? `Editar ${folio}` : "Nueva cotización"}{" "}
-            <span className="text-xs text-gray-400 font-normal ml-2">
-              {folio}
-            </span>
-          </h2>
-          <div className="flex gap-2">
-            <button
-              onClick={() => navigate("/")}
-              className="text-sm px-4 py-2 rounded-lg border border-gray-200 hover:bg-red-500 hover:border-red-800 hover:text-white transition-colors"
-            >
-              Cancelar
-            </button>
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800">
+              {id ? "Editar cotización" : "Nueva cotización"}
+            </h2>
+            <p className="text-xs text-gray-400 mt-0.5">{folio}</p>
           </div>
+          <button
+            onClick={() => navigate("/")}
+            className="text-sm px-4 py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-500 transition-colors"
+          >
+            Cancelar
+          </button>
         </div>
 
         {/* Remitente */}
@@ -358,7 +357,7 @@ export default function NewQuote() {
                 </button>
                 <button
                   onClick={saveSender}
-                  className="text-sm px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                  className="text-sm px-3 py-1.5 rounded-lg bg-gray-900 text-white hover:bg-gray-700 transition-colors"
                 >
                   Guardar datos
                 </button>
@@ -572,7 +571,7 @@ export default function NewQuote() {
           )}
           <button
             onClick={addService}
-            className="mt-3 text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50"
+            className="mt-3 text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
           >
             + Agregar servicio
           </button>
@@ -611,7 +610,7 @@ export default function NewQuote() {
           )}
           <button
             onClick={addPart}
-            className="mt-3 text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50"
+            className="mt-3 text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
           >
             + Agregar refacción
           </button>
@@ -636,8 +635,54 @@ export default function NewQuote() {
                 className={inputCls}
               />
             </div>
-            <div>
-              <label className={labelCls}>Estado</label>
+            <div className="relative">
+              <label className={labelCls}>
+                Estado
+                <span
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                  className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-gray-200 text-gray-500 text-xs cursor-help"
+                >
+                  ?
+                </span>
+              </label>
+              {showTooltip && (
+                <div className="absolute bottom-full left-0 mb-2 z-10 w-64 bg-white border border-gray-200 text-gray-600 text-xs rounded-xl p-3 leading-relaxed shadow-md">
+                  <strong className="block text-gray-800 mb-1.5 font-semibold">
+                    Estados de la cotización
+                  </strong>
+                  <div className="flex flex-col gap-1">
+                    <span>
+                      <span className="font-medium text-gray-700">
+                        Borrador
+                      </span>{" "}
+                      — en proceso, no lista
+                    </span>
+                    <span>
+                      <span className="font-medium text-gray-700">
+                        Pendiente
+                      </span>{" "}
+                      — lista, sin enviar
+                    </span>
+                    <span>
+                      <span className="font-medium text-gray-700">Enviada</span>{" "}
+                      — enviada al cliente
+                    </span>
+                    <span>
+                      <span className="font-medium text-gray-700">
+                        Aprobada
+                      </span>{" "}
+                      — cliente aceptó
+                    </span>
+                    <span>
+                      <span className="font-medium text-gray-700">
+                        Rechazada
+                      </span>{" "}
+                      — cliente rechazó
+                    </span>
+                  </div>
+                </div>
+              )}
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
@@ -647,6 +692,7 @@ export default function NewQuote() {
                 <option>Pendiente</option>
                 <option>Enviada</option>
                 <option>Aprobada</option>
+                <option>Rechazada</option>
               </select>
             </div>
             <div className="col-span-2">
@@ -682,8 +728,11 @@ export default function NewQuote() {
                 type="number"
                 min="0"
                 step="0.01"
-                value={advance}
-                onChange={(e) => setAdvance(Number(e.target.value))}
+                value={advance === 0 ? "" : advance}
+                onChange={(e) =>
+                  setAdvance(e.target.value === "" ? 0 : Number(e.target.value))
+                }
+                placeholder="0.00"
                 className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm text-right w-36 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>
@@ -695,7 +744,7 @@ export default function NewQuote() {
           <div className="flex justify-end mt-6">
             <button
               onClick={save}
-              className="px-6 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
+              className="px-6 py-2.5 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-gray-700 transition-colors"
             >
               {id ? "Guardar cambios" : "Generar cotización"}
             </button>

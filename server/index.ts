@@ -83,3 +83,17 @@ app.delete("/quotes/:id", async (req, res) => {
   res.json({ ok: true });
 });
 app.listen(3000, () => console.log("Server corriendo en puerto 3000"));
+
+//Editar items del catalogo
+app.put("/catalog/:id", async (req, res) => {
+  const item = await prisma.catalogItem.update({
+    where: { id: Number(req.params.id) },
+    data: req.body,
+  });
+  res.json(item);
+});
+//Borrar items del catalogo
+app.delete("/catalog/:id", async (req, res) => {
+  await prisma.catalogItem.delete({ where: { id: Number(req.params.id) } });
+  res.json({ ok: true });
+});
