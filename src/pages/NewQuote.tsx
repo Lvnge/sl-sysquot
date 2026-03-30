@@ -157,7 +157,7 @@ export default function NewQuote() {
   const [services, setServices] = useState<Item[]>([]);
   const [parts, setParts] = useState<Item[]>([]);
   const [advance, setAdvance] = useState<number>(0);
-  const [folio, setFolio] = useState(() => "COT-" + Date.now());
+  const [folio, setFolio] = useState(() => "COT-" + Math.floor(100000000 + Math.random() * 900000000));
   const [catalogItems, setCatalogItems] = useState<
     { id: number; name: string; type: string; price: number }[]
   >([]);

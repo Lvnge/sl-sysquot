@@ -35,6 +35,8 @@ app.post("/login", async (req, res) => {
   res.json({ token });
 });
 
+
+
 app.get("/sender", auth, async (req, res) => {
   let sender = await prisma.senderProfile.findFirst();
   if (!sender) sender = await prisma.senderProfile.create({ data: {} });

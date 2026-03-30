@@ -67,6 +67,13 @@ const s = StyleSheet.create({
   },
   twoCol: { flexDirection: "row", gap: 20 },
   col: { flex: 1 },
+  watermark: {
+  position: "absolute",
+  top: "35%",
+  left: "25%",
+  width: 300,
+  opacity: 0.07,
+},
 });
 
 const fmt = (n: number) =>
@@ -123,6 +130,7 @@ export default function QuotePDF({
   return (
     <Document>
       <Page size="A4" style={s.page}>
+        <Image src={logo} style={s.watermark} />
         <View style={s.headerRow}>
           <View>
             <Image src={logo} style={{ width: 100, marginBottom: 6 }} />
