@@ -34,3 +34,5 @@ export const deleteQuote = (id: number) => api.delete(`/quotes/${id}`);
 export const updateCatalogItem = (id: number, data: object) =>
   api.put(`/catalog/${id}`, data);
 export const deleteCatalogItem = (id: number) => api.delete(`/catalog/${id}`);
+export const updateClient = (id: number, data: object) => api.put(`/clients/${id}`, data);
+export const deleteClient = (id: number) => api.delete(`/clients/${id}`);

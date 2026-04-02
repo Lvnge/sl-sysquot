@@ -3,6 +3,7 @@ import QuoteList from "./pages/QuoteList";
 import NewQuote from "./pages/NewQuote";
 import Catalog from "./pages/Catalog";
 import Login from "./pages/Login";
+import Clients from './pages/Clients'
 import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
@@ -42,6 +43,7 @@ export default function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/clients" element={<PrivateRoute><Clients /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );

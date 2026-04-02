@@ -13,6 +13,8 @@ import {
   updateSender,
 } from "../services/api";
 
+import { Plus, Question } from "phosphor-react";
+
 interface Item {
   section: string;
   desc: string;
@@ -595,13 +597,19 @@ export default function NewQuote() {
               onClick={addService}
               className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
             >
-              + Agregar manualmente
+            <div className="flex items-center gap-1">
+  <Plus size={14} />
+  <span>Agregar manualmente</span>
+</div>
             </button>
             <button
               onClick={() => setShowCatalogModal("servicio")}
               className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
             >
-              + Del catálogo
+              <div className="flex items-center gap-1">
+  <Plus size={14} />
+  <span>Del catálogo</span>
+</div>
             </button>
           </div>
         </Section>
@@ -642,13 +650,19 @@ export default function NewQuote() {
               onClick={addPart}
               className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
             >
-              + Agregar manualmente
+             <div className="flex items-center gap-1">
+  <Plus size={14} />
+  <span>Agregar manualmente</span>
+</div>
             </button>
             <button
               onClick={() => setShowCatalogModal("refaccion")}
               className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-gray-600"
             >
-              + Del catálogo
+           <div className="flex items-center gap-1">
+  <Plus size={14} />
+  <span>Del catálogo</span>
+</div>
             </button>
           </div>
         </Section>
@@ -678,9 +692,9 @@ export default function NewQuote() {
                 <span
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
-                  className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-gray-200 text-gray-500 text-xs cursor-help"
+                  className="ml-1.5 inline-flex items-center justify-center cursor-help"
                 >
-                  ?
+                  <Question size={16}/>
                 </span>
               </label>
               {showTooltip && (

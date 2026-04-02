@@ -6,6 +6,7 @@ import {
   updateCatalogItem,
   deleteCatalogItem,
 } from "../services/api";
+import { Plus } from "phosphor-react";
 
 interface CatalogItem {
   id: number;
@@ -27,11 +28,19 @@ export default function Catalog() {
   const [form, setForm] = useState(emptyForm);
   const [showing, setShowing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [page, setPage] = useState(1);
+  const perPage = 9;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getCatalog().then((r) => setItems(r.data));
+    getCatalog()
+      .then((r) => setItems(r.data))
+      .finally(() => setLoading(false));
   }, []);
-
+  const handleFilter = (f: string) => {
+    setFilter(f);
+    setPage(1);
+  };
   const openNew = () => {
     setForm(emptyForm);
     setEditingId(null);
@@ -73,9 +82,36 @@ export default function Catalog() {
   };
 
   const filtered = items.filter((i) => filter === "all" || i.type === filter);
+  const totalPages = Math.ceil(filtered.length / perPage);
+  const paginated = filtered.slice((page - 1) * perPage, page * perPage);
+
   const fmt = (n: number) =>
     n.toLocaleString("es-MX", { style: "currency", currency: "MXN" });
 
+  if (loading)
+    return (
+      <Layout>
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <div className="h-6 w-24 bg-gray-200 rounded animate-pulse" />
+            <div className="h-9 w-28 bg-gray-200 rounded-lg animate-pulse" />
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col gap-2"
+              >
+                <div className="h-4 w-16 bg-gray-200 rounded animate-pulse" />
+                <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
+                <div className="h-3 w-full bg-gray-100 rounded animate-pulse" />
+                <div className="h-5 w-20 bg-gray-200 rounded animate-pulse mt-2" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </Layout>
+    );
   return (
     <Layout>
       <div className="p-6 min-h-screen">
@@ -91,7 +127,10 @@ export default function Catalog() {
             onClick={openNew}
             className="bg-gray-900 text-white text-sm px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
           >
-            + Agregar
+            <div className="flex items-center justify-between gap-1">
+              <Plus size={12} />
+              <span>Agregar</span>
+            </div>
           </button>
         </div>
 
@@ -167,7 +206,7 @@ export default function Catalog() {
           {["all", "servicio", "refaccion"].map((f) => (
             <button
               key={f}
-              onClick={() => setFilter(f)}
+              onClick={() => handleFilter(f)}
               className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${filter === f ? "bg-gray-900 border-gray-900 text-white font-medium" : "border-gray-200 text-gray-500 hover:bg-gray-50"}`}
             >
               {f === "all"
@@ -180,7 +219,7 @@ export default function Catalog() {
         </div>
 
         <div className="grid grid-cols-3 gap-3">
-          {filtered.map((item) => (
+          {paginated.map((item) => (
             <div
               key={item.id}
               className="bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-300 transition-colors flex flex-col"
@@ -225,6 +264,38 @@ export default function Catalog() {
             </p>
           )}
         </div>
+        {totalPages > 1 && (
+          <div className="flex justify-between items-center mt-4">
+            <span className="text-xs text-gray-400">
+              Página {page} de {totalPages} — {filtered.length} items
+            </span>
+            <div className="flex gap-1">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="px-3 py-1.5 text-xs rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default transition-colors"
+              >
+                Anterior
+              </button>
+              {[...Array(totalPages)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setPage(i + 1)}
+                  className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${page === i + 1 ? "bg-gray-900 border-gray-900 text-white" : "border-gray-200 text-gray-600 hover:bg-gray-50"}`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+              <button
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                className="px-3 py-1.5 text-xs rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default transition-colors"
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );

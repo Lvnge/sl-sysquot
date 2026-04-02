@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { FileText, FilePlus, Archive, Users } from "phosphor-react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${isActive ? "bg-gray-900 text-white font-medium" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`
             }
           >
-            <span className="text-base">📋</span> Cotizaciones
+            <span className="text-base"><FileText size={20} /></span> Cotizaciones
           </NavLink>
           <NavLink
             to="/new"
@@ -34,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${isActive ? "bg-gray-900 text-white font-medium" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`
             }
           >
-            <span className="text-base">＋</span> Nueva cotización
+            <span className="text-base"><FilePlus size={20} /></span> Nueva cotización
           </NavLink>
           <NavLink
             to="/catalog"
@@ -42,8 +43,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${isActive ? "bg-gray-900 text-white font-medium" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`
             }
           >
-            <span className="text-base">📦</span> Catálogo
+            <span className="text-base"><Archive size={20} /></span> Catálogo
           </NavLink>
+          <NavLink to="/clients" className={({ isActive }) =>
+  `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${isActive ? "bg-gray-900 text-white font-medium" : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"}`
+}>
+  <span className="text-base"><Users size={20} /></span> Clientes
+</NavLink>
         </nav>
         <div className="px-5 py-3 border-t border-gray-100 flex justify-between items-center">
           <p className="text-xs text-gray-300">v1.0</p>

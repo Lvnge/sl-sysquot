@@ -116,4 +116,17 @@ app.delete("/quotes/:id", auth, async (req, res) => {
   res.json({ ok: true });
 });
 
+app.put("/clients/:id", auth, async (req, res) => {
+  const client = await prisma.client.update({
+    where: { id: Number(req.params.id) },
+    data: req.body,
+  })
+  res.json(client)
+})
+
+app.delete("/clients/:id", auth, async (req, res) => {
+  await prisma.client.delete({ where: { id: Number(req.params.id) } })
+  res.json({ ok: true })
+})
+
 app.listen(3000, () => console.log("Server corriendo en puerto 3000"));
